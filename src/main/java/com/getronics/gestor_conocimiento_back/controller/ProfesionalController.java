@@ -3,6 +3,7 @@ package com.getronics.gestor_conocimiento_back.controller;
 import com.getronics.gestor_conocimiento_back.model.ProfesionalIdioma;
 import com.getronics.gestor_conocimiento_back.model.Profesional;
 import com.getronics.gestor_conocimiento_back.service.ProfesionalService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class ProfesionalController {
     private ProfesionalService profesionalService;
 
     @PostMapping("/crear")
-    public ResponseEntity<Profesional> crearEmpleado(@RequestBody Profesional profesional){
+    public ResponseEntity<Profesional> crearEmpleado(@Valid @RequestBody Profesional profesional){
         ProfesionalIdioma idioma = new ProfesionalIdioma();
         return new ResponseEntity<>(profesionalService.crearProfesional(profesional), HttpStatus.CREATED);
     }

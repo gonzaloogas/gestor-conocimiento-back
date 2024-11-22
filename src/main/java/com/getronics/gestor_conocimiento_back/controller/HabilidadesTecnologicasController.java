@@ -20,7 +20,7 @@ public class HabilidadesTecnologicasController {
     private HabilidadTecnologicaService habilidadTecnologicaService;
 
     @PostMapping("/crear")
-    public ResponseEntity<HabilidadTecnologica> crearHabilidad(@Valid @RequestBody HabilidadTecnologica habilidad, BindingResult bindingResult){        ;
+    public ResponseEntity<HabilidadTecnologica> crearHabilidad(@Valid @RequestBody HabilidadTecnologica habilidad){        ;
 
         return new ResponseEntity<>(habilidadTecnologicaService.crearHabilidadTecnologica(habilidad), HttpStatus.CREATED);
     }
