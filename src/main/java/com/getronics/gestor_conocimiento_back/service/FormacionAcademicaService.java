@@ -1,6 +1,6 @@
 package com.getronics.gestor_conocimiento_back.service;
 
-import com.getronics.gestor_conocimiento_back.model.FormacionAcademica;
+import com.getronics.gestor_conocimiento_back.model.FormacionAcademicaProfesional;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -8,8 +8,8 @@ import java.util.Optional;
 @Service
 public interface FormacionAcademicaService {
 
-    public FormacionAcademica crearFormacionAcademica(FormacionAcademica formacionAcademica);
+    public FormacionAcademicaProfesional crearFormacionAcademica(FormacionAcademicaProfesional formacionAcademica);
 
-    public Optional<FormacionAcademica> listarFormacionAcademicaPorId(Long id);
+    public Optional<FormacionAcademicaProfesional> listarFormacionAcademicaPorId(Long id);
 
 }

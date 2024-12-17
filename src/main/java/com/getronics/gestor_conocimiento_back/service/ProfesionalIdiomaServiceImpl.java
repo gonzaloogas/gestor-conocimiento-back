@@ -1,6 +1,6 @@
 package com.getronics.gestor_conocimiento_back.service;
 
-import com.getronics.gestor_conocimiento_back.model.ProfesionalIdioma;
+import com.getronics.gestor_conocimiento_back.model.IdiomaProfesional;
 import com.getronics.gestor_conocimiento_back.repository.ProfesionalIdiomaRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,17 +13,17 @@ public class ProfesionalIdiomaServiceImpl implements ProfesionalIdiomaService {
     private ProfesionalIdiomaRepository idiomaRepository;
 
     @Override
-    public ProfesionalIdioma crearIdioma(ProfesionalIdioma idioma) {
+    public IdiomaProfesional crearIdioma(IdiomaProfesional idioma) {
         return idiomaRepository.save(idioma);
     }
 
     @Override
-    public Optional<ProfesionalIdioma> listarIdiomaPorId(Long id) {
+    public Optional<IdiomaProfesional> listarIdiomaPorId(Long id) {
         return idiomaRepository.findById(id);
     }
 
     @Override
-    public List<ProfesionalIdioma> listarIdiomas() {
+    public List<IdiomaProfesional> listarIdiomas() {
         return idiomaRepository.findAll();
     }
 }

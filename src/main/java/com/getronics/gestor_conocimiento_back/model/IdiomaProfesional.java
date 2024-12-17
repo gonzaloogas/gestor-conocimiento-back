@@ -12,19 +12,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name="profesional_habilidad")
-public class ProfesionalHabilidad {
+@Table(name="profesional_idioma")
+public class IdiomaProfesional {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String nombre;
+    private String nivelDominio;
     @ManyToOne(targetEntity = Profesional.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "profesional_id")
     @JsonBackReference
     private Profesional profesional;
-
-    private String habilidadTecnologica;
-
-    private String nivelCompetencia;
 }

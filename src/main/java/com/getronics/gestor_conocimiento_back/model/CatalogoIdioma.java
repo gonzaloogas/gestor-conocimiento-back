@@ -8,7 +8,7 @@ import lombok.Data;
 @Entity
 @Table(name="Idiomas")
 @Data
-public class Idioma {
+public class CatalogoIdioma {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
