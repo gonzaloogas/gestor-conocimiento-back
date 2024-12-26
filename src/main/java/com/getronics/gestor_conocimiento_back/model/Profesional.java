@@ -21,28 +21,23 @@ import java.util.List;
 public class Profesional  implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+
+    //private Long idSAP;
 
     @NotNull(message = "El campo rut no puede ser nulo")
     @NotEmpty(message = "El valor del campo rut no puede ser vacío")
     private String rut;
 
-    @NotNull(message = "El campo id sap no puede ser nulo")
-    @NotEmpty(message = "El valor del campo id sap no puede ser vacío")
-    @Column(name="id_sap")
-    private String idSAP;
-
-    @NotNull(message = "El campo nombres no puede ser nulo")
     @NotEmpty(message = "El valor del campo nombres no puede ser vacío")
     private String nombres;
 
-    @NotNull (message = "El campo apellido paterno no puede ser nulo")
     @NotEmpty(message = "El valor del campo apellido paterno no puede ser vacío")
     @Column(name="apellido_paterno")
     private String aPaterno;
 
-    @NotNull (message = "El campo apellido materno no puede ser nulo")
     @NotEmpty(message = "El valor del campo apellido materno no puede ser vacío")
     @Column(name="apellido_materno")
     private String aMaterno;
@@ -51,28 +46,43 @@ public class Profesional  implements Serializable {
     @Column(name = "fecha_nacimiento")
     private LocalDate fechaNacimiento;
 
-    @NotNull(message = "El campo direccion no debe ser nulo")
+    @NotEmpty(message = "El valor del campo nacionalidad no debe ser vacio")
+    private String nacionalidad;
+
     @NotEmpty(message = "El valor del campo direccion no debe ser vacio")
     private String direccion;
 
-    @NotNull(message = "El campo telefono no debe ser nulo")
     @NotEmpty(message = "El valor del campo direccion no debe ser vacio")
     private String telefono;
 
-    @NotNull(message = "El campo correo electronico no debe ser nulo")
-    @NotEmpty(message = "El valor del campo correo electronico no debe ser vacio")
     @Email
     @Column(name = "correo_electronico")
     private String correoElectronico;
-
 
     @NotNull (message = "El campo años de experiencia no puede ser nulo")
     @Column(name="anio_experiencia")
     private Integer anioExperiencia;
 
-    @NotNull (message = "El campo nivel experiencia no puede ser nulo")
+    @NotEmpty (message = "El campo perfil profesional no puede ser nulo")
+    private String perfilProfesional;
+
     @NotEmpty(message = "El valor del campo nivel experiencia no puede ser vacío")
     private String nivelExperiencia;
+
+    @NotNull (message = "El campo fecha ingreso getronics no puede ser nulo")
+    private LocalDate fechaIngresoGetronics;
+
+    private LocalDate fechaEgresoGetronics;
+
+    private Boolean activo;
+
+    private Boolean referido;
+
+    private Boolean listaNegra;
+
+    @Lob
+    @Basic(optional = false, fetch = FetchType.EAGER)
+    private byte[] fotografia;
 
     @OneToMany(targetEntity = ConocimientoTecnicoProfesional.class, fetch = FetchType.EAGER, mappedBy ="profesional", orphanRemoval = true,cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -94,21 +104,29 @@ public class Profesional  implements Serializable {
     @JsonManagedReference
     private List<CertificacionProfesional> certificacionProfesional = new ArrayList<>();
 
-    @NotNull (message = "El campo fecha ingreso getronics no puede ser nulo")
-    private LocalDate fechaIngresoGetronics;
+    @OneToMany(targetEntity = ReferenciaProfesional.class, fetch = FetchType.EAGER, mappedBy ="profesional", orphanRemoval = true,cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<ReferenciaProfesional> referenciaProfesional = new ArrayList<>();
 
-    private LocalDate fechaEgresoGetronics;
+    @OneToMany(targetEntity = PublicacionesLogrosAcademicosProfesional.class, fetch = FetchType.EAGER, mappedBy ="profesional", orphanRemoval = true,cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<PublicacionesLogrosAcademicosProfesional> publicacionesProfesional = new ArrayList<>();
 
-    private Boolean activo;
+    @OneToMany(targetEntity = RedesSocialesPortafolioProfesional.class, fetch = FetchType.EAGER, mappedBy ="profesional", orphanRemoval = true,cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<RedesSocialesPortafolioProfesional> rrssPortafolioProfesional = new ArrayList<>();
 
-    private Boolean referido;
-
-    private Boolean listaNegra;
-
-    @ManyToOne(targetEntity = Cliente.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JsonBackReference
-    @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "profesional_proyecto_map",
+            joinColumns = @JoinColumn(
+                    name = "profesional_id",
+                    referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "proyecto_id",
+                    referencedColumnName = "id")
+    )
+    private List<Proyecto> proyectos = new ArrayList<>();
 
     @Override
     public String toString() {

@@ -8,13 +8,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name="habilidad_tecnologica")
-public class CatalogoConocimientoTecnologica {
+@Table(name="catalogo_conocimiento_tecnologica")
+public class CatalogoConocimientoTecnologico implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

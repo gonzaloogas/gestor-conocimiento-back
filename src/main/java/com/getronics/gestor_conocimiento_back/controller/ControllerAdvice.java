@@ -4,6 +4,8 @@ import com.getronics.gestor_conocimiento_back.dto.ErrorDTO;
 import com.getronics.gestor_conocimiento_back.exception.*;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -48,6 +50,12 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorDTO> clienteNotFound(ClienteNotFoundException ex){
         ErrorDTO error = ErrorDTO.builder().code("P-504").message(ex.getMessage()).build();
         return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = DataAccessException.class)
+    public ResponseEntity<ErrorDTO> ErrorBD(DataAccessException ex){
+        ErrorDTO error = ErrorDTO.builder().code("P-404").message(ex.getMessage()).build();
+        return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
     }
 
     @Override

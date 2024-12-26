@@ -1,6 +1,6 @@
 package com.getronics.gestor_conocimiento_back.controller;
 
-import com.getronics.gestor_conocimiento_back.model.CatalogoConocimientoTecnologica;
+import com.getronics.gestor_conocimiento_back.model.CatalogoConocimientoTecnologico;
 import com.getronics.gestor_conocimiento_back.service.CatalogoHabilidadTecnologicaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,23 +20,23 @@ public class CatalogoHabilidadesTecnologicasController {
     private CatalogoHabilidadTecnologicaService catalogoHabilidadTecnologicaService;
 
     @PostMapping("/crear")
-    public ResponseEntity<CatalogoConocimientoTecnologica> crearHabilidad(@Valid @RequestBody CatalogoConocimientoTecnologica habilidad){        ;
+    public ResponseEntity<CatalogoConocimientoTecnologico> crearHabilidad(@Valid @RequestBody CatalogoConocimientoTecnologico habilidad){        ;
 
         return new ResponseEntity<>(catalogoHabilidadTecnologicaService.crearHabilidadTecnologica(habilidad), HttpStatus.CREATED);
     }
 
     @GetMapping("/listar/{id}")
-    public ResponseEntity<Optional<CatalogoConocimientoTecnologica>> listarHabilidades(@PathVariable("id") Long id){  ;
+    public ResponseEntity<Optional<CatalogoConocimientoTecnologico>> listarHabilidades(@PathVariable("id") Long id){  ;
         return new ResponseEntity<>(catalogoHabilidadTecnologicaService.listarHabilidadTecnologicaPorId(id), HttpStatus.CREATED);
     }
 
     @GetMapping("/listarTodas")
-    public ResponseEntity<List<CatalogoConocimientoTecnologica>> listarHabilidades(){
+    public ResponseEntity<List<CatalogoConocimientoTecnologico>> listarHabilidades(){
         return new ResponseEntity<>(catalogoHabilidadTecnologicaService.listarHabilidades(),HttpStatus.OK);
     }
 
     @PutMapping("/actualizar")
-    public ResponseEntity<CatalogoConocimientoTecnologica> actualizarHabilidad(CatalogoConocimientoTecnologica habilidadTecnologica, Long id ){
+    public ResponseEntity<CatalogoConocimientoTecnologico> actualizarHabilidad(CatalogoConocimientoTecnologico habilidadTecnologica, Long id ){
 
         return null;
     }

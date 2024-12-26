@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.Year;
 
 @Entity
@@ -17,7 +18,7 @@ import java.time.Year;
 @NoArgsConstructor
 @Builder
 @Table(name="formacion_academica")
-public class FormacionAcademicaProfesional {
+public class FormacionAcademicaProfesional implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

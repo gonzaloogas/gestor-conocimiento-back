@@ -31,12 +31,13 @@ public class ProfesionalServiceImpl implements ProfesionalService{
     @Override
     public Profesional crearProfesional(Profesional profesional) throws ClienteNotFoundException {
 
+        /*
         if (profesional.getCliente() != null && profesional.getCliente().getId() != null) {
             Cliente cliente = clienteRepository.findById(profesional.getCliente().getId())
                     .orElseThrow(() -> new ClienteNotFoundException("Cliente no encontrado con ID: " + profesional.getCliente().getId()));
             profesional.setCliente(cliente); // Asocia el cliente gestionado
         }
-
+*/
         Profesional profesionalCraeado = profesionalRepository.save(profesional);
 
         List<IdiomaProfesional> idiomasProfesional = profesionalCraeado.getIdiomasProfesional();
@@ -72,18 +73,19 @@ public class ProfesionalServiceImpl implements ProfesionalService{
     @Override
     public Profesional actualizarProfesional(Profesional profesional, Long id) throws ProfesionalNotFoundException, HabilidadNotFoundException, IdiomaNotFoundException, FormacionAcademicaNotFoundException, ClienteNotFoundException {
 
+
         Profesional profesionalUpdate = profesionalRepository.findById(id).
                 orElseThrow(() -> new ProfesionalNotFoundException("Profesional no encontrado"));
-
+ /*
         Cliente nuevoCliente = clienteRepository.findById(profesional.getCliente().getId()).
                 orElseThrow(() -> new ClienteNotFoundException("Cliente no encontrado"));
-
+*/
         profesionalUpdate.setNombres(profesional.getNombres());
         profesionalUpdate.setAPaterno(profesional.getAPaterno());
         profesionalUpdate.setAMaterno(profesional.getAMaterno());
         profesionalUpdate.setNivelExperiencia(profesional.getNivelExperiencia());
         profesionalUpdate.setAnioExperiencia(profesional.getAnioExperiencia());
-        profesionalUpdate.setCliente(nuevoCliente);
+       // profesionalUpdate.setCliente(nuevoCliente);
 
 
         //habilidades
