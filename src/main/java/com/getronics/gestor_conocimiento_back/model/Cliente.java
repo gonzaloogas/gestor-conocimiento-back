@@ -32,12 +32,10 @@ public class Cliente implements Serializable {
     @NotEmpty(message = "El valor del campo rubro no puede ser vacío")
     private String rubro;
 
-    @NotEmpty(message = "El valor del campo activo no puede ser vacío")
     private Boolean activo;
 
     @Lob
     @Basic(optional = false, fetch = FetchType.EAGER)
-    @NotEmpty(message = "Debe registrar un logo para el cliente")
     private byte[] logo;
 
     @OneToMany(targetEntity = Proyecto.class, fetch = FetchType.EAGER, mappedBy ="cliente", orphanRemoval = true,cascade = CascadeType.ALL)

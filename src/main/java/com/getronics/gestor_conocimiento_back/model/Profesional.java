@@ -21,11 +21,11 @@ import java.util.List;
 public class Profesional  implements Serializable {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    //private Long idSAP;
+    @Column(name = "id_sap")
+    private Long idSap;
 
     @NotNull(message = "El campo rut no puede ser nulo")
     @NotEmpty(message = "El valor del campo rut no puede ser vacío")
@@ -117,8 +117,7 @@ public class Profesional  implements Serializable {
     private List<RedesSocialesPortafolioProfesional> rrssPortafolioProfesional = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "profesional_proyecto_map",
+    @JoinTable(name = "profesional_proyecto_map",
             joinColumns = @JoinColumn(
                     name = "profesional_id",
                     referencedColumnName = "id"),
@@ -127,6 +126,10 @@ public class Profesional  implements Serializable {
                     referencedColumnName = "id")
     )
     private List<Proyecto> proyectos = new ArrayList<>();
+
+    @ManyToOne(targetEntity = JefeServicio.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonBackReference
+    private JefeServicio jefeServicio;
 
     @Override
     public String toString() {

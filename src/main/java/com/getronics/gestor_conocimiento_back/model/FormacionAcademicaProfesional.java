@@ -39,6 +39,11 @@ public class FormacionAcademicaProfesional implements Serializable {
     @Column(name = "anio_fin")
     private Year anioFin;
 
+    @NotNull (message = "El campo año inicio no puede ser nulo")
+    @Column(name = "situacion_academica")
+    private String situacionAcademica;
+
+
     @ManyToOne(targetEntity = Profesional.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonBackReference
     private Profesional profesional;
