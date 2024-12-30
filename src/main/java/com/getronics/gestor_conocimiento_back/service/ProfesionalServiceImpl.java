@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -29,15 +30,13 @@ public class ProfesionalServiceImpl implements ProfesionalService{
     private ClienteRepository clienteRepository;
 
     @Override
-    public Profesional crearProfesional(Profesional profesional) throws ClienteNotFoundException {
+    public Profesional crearProfesional(Profesional profesional) throws ClienteNotFoundException, ProfesionalExistException {
 
-        /*
-        if (profesional.getCliente() != null && profesional.getCliente().getId() != null) {
-            Cliente cliente = clienteRepository.findById(profesional.getCliente().getId())
-                    .orElseThrow(() -> new ClienteNotFoundException("Cliente no encontrado con ID: " + profesional.getCliente().getId()));
-            profesional.setCliente(cliente); // Asocia el cliente gestionado
+        //valida que el id sap no exista en la base de datos
+        if(Profesional.class.isInstance(profesionalRepository.findByIdSap(profesional.getIdSap()))){
+            throw new ProfesionalExistException("Id SAP ya existe en la base de datos");
         }
-*/
+
         Profesional profesionalCraeado = profesionalRepository.save(profesional);
 
         List<IdiomaProfesional> idiomasProfesional = profesionalCraeado.getIdiomasProfesional();
@@ -71,11 +70,14 @@ public class ProfesionalServiceImpl implements ProfesionalService{
     }
 
     @Override
-    public Profesional actualizarProfesional(Profesional profesional, Long id) throws ProfesionalNotFoundException, HabilidadNotFoundException, IdiomaNotFoundException, FormacionAcademicaNotFoundException, ClienteNotFoundException {
-
+    public Profesional actualizarProfesional(Profesional profesional, Long id) throws ProfesionalNotFoundException, HabilidadNotFoundException, IdiomaNotFoundException, FormacionAcademicaNotFoundException, ClienteNotFoundException, ProfesionalExistException {
 
         Profesional profesionalUpdate = profesionalRepository.findById(id).
                 orElseThrow(() -> new ProfesionalNotFoundException("Profesional no encontrado"));
+
+        if (Objects.equals(profesionalUpdate.getIdSap(), profesional.getIdSap())) {
+            throw new ProfesionalExistException("Id SAP ya existe en la base de datos");
+        }
  /*
         Cliente nuevoCliente = clienteRepository.findById(profesional.getCliente().getId()).
                 orElseThrow(() -> new ClienteNotFoundException("Cliente no encontrado"));
@@ -85,10 +87,9 @@ public class ProfesionalServiceImpl implements ProfesionalService{
         profesionalUpdate.setAMaterno(profesional.getAMaterno());
         profesionalUpdate.setNivelExperiencia(profesional.getNivelExperiencia());
         profesionalUpdate.setAnioExperiencia(profesional.getAnioExperiencia());
-       // profesionalUpdate.setCliente(nuevoCliente);
 
 
-        //habilidades
+        //conocimiento tecnico
         List<ConocimientoTecnicoProfesional> habilidades = new ArrayList<>();
         for(ConocimientoTecnicoProfesional habilidadRq: profesional.getConocimientoTecnicoProfesional()){
 

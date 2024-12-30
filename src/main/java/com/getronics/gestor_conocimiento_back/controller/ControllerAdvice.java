@@ -58,6 +58,12 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(value = ProfesionalExistException.class)
+    public ResponseEntity<ErrorDTO> idSapExist(ProfesionalExistException ex){
+        ErrorDTO error = ErrorDTO.builder().code("P-405").message(ex.getMessage()).build();
+        return new ResponseEntity<>(error,HttpStatus.CONFLICT);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 

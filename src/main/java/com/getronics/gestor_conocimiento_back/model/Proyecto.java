@@ -37,5 +37,6 @@ public class Proyecto implements Serializable {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    private List<Profesional> profesionales = new ArrayList<>();
+    @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL)
+    private List<ProfesionalProyecto> profesionales = new ArrayList<>();
 }

@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public interface ProfesionalService {
 
-    public Profesional crearProfesional(Profesional profesional) throws ClienteNotFoundException;
+    public Profesional crearProfesional(Profesional profesional) throws ClienteNotFoundException, ProfesionalExistException;
 
     public Optional<Profesional> listarProfesionalPorId(Long id) throws ProfesionalNotFoundException;
 
@@ -20,5 +20,5 @@ public interface ProfesionalService {
 
     public void eliminarProfesionalPorId(Long id);
 
-    public Profesional actualizarProfesional(Profesional profesional, Long id) throws ProfesionalNotFoundException, HabilidadNotFoundException, IdiomaNotFoundException, FormacionAcademicaNotFoundException, ClienteNotFoundException;
+    public Profesional actualizarProfesional(Profesional profesional, Long id) throws ProfesionalNotFoundException, HabilidadNotFoundException, IdiomaNotFoundException, FormacionAcademicaNotFoundException, ClienteNotFoundException, ProfesionalExistException;
 }

@@ -116,16 +116,8 @@ public class Profesional  implements Serializable {
     @JsonManagedReference
     private List<RedesSocialesPortafolioProfesional> rrssPortafolioProfesional = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "profesional_proyecto_map",
-            joinColumns = @JoinColumn(
-                    name = "profesional_id",
-                    referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "proyecto_id",
-                    referencedColumnName = "id")
-    )
-    private List<Proyecto> proyectos = new ArrayList<>();
+    @OneToMany(mappedBy = "profesional", cascade = CascadeType.ALL)
+    private List<ProfesionalProyecto> proyectos = new ArrayList<>();
 
     @ManyToOne(targetEntity = JefeServicio.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonBackReference
