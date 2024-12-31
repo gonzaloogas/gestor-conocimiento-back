@@ -15,23 +15,22 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name="catalogo_conocimiento_tecnologica")
-public class CatalogoConocimientoTecnologico implements Serializable {
+@Table(name="catalogo_conocimiento")
+public class CatalogoConocimiento implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "El campo nombre no puede ser nulo")
     @NotEmpty(message = "El valor del campo nombre no puede ser vacío")
     private String nombre;
 
-    @NotNull (message = "El campo categoría no puede ser nulo")
     @NotEmpty(message = "El valor del campo categoría no puede ser vacío")
     private String categoria;
 
-    @NotNull (message = "El campo descripcion no puede ser nulo")
     @NotEmpty(message = "El valor del campo descripcion no puede ser vacío")
     private String descripcion;
 
+    @Enumerated(EnumType.STRING)
+    private TipoHabilidad tipo;
 }

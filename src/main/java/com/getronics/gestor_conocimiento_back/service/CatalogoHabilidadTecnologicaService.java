@@ -1,6 +1,6 @@
 package com.getronics.gestor_conocimiento_back.service;
 
-import com.getronics.gestor_conocimiento_back.model.CatalogoConocimientoTecnologico;
+import com.getronics.gestor_conocimiento_back.model.CatalogoConocimiento;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,9 +9,9 @@ import java.util.Optional;
 @Service
 public interface CatalogoHabilidadTecnologicaService {
 
-    public CatalogoConocimientoTecnologico crearHabilidadTecnologica(CatalogoConocimientoTecnologico habilidadTecnologica);
+    public CatalogoConocimiento crearHabilidadTecnologica(CatalogoConocimiento habilidadTecnologica);
 
-    public Optional<CatalogoConocimientoTecnologico> listarHabilidadTecnologicaPorId(Long id);
+    public Optional<CatalogoConocimiento> listarHabilidadTecnologicaPorId(Long id);
 
-    public List<CatalogoConocimientoTecnologico> listarHabilidades();
+    public List<CatalogoConocimiento> listarHabilidades();
 }

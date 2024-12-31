@@ -15,7 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 @Table(name="profesional_habilidad")
-public class ConocimientoTecnicoProfesional implements Serializable {
+public class HabilidadProfesional implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,13 @@ public class ConocimientoTecnicoProfesional implements Serializable {
     @JsonBackReference
     private Profesional profesional;
 
-    private String habilidadTecnologica;
+    private String habilidad;
 
-    private String nivelCompetencia;
+    @Enumerated(EnumType.STRING)
+    private TipoHabilidad tipoHabilidad;
+
+    private String aniosExperiencia;
+
+    @Enumerated(EnumType.STRING)
+    private NivelCompetenicia nivelCompetencia;
 }

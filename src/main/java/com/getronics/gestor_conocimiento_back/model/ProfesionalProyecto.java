@@ -3,6 +3,7 @@ package com.getronics.gestor_conocimiento_back.model;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "profesional_proyecto")
@@ -22,5 +23,7 @@ public class ProfesionalProyecto implements Serializable {
     private Proyecto proyecto;
 
     private Long porcentajeParticipacion;
+
+    private LocalDate ingresoAlProyecto;
 
 }

@@ -74,19 +74,19 @@ public class Profesional  implements Serializable {
 
     private LocalDate fechaEgresoGetronics;
 
-    private Boolean activo;
+    //private EstadoProfesional estadoProfesional;
 
     private Boolean referido;
 
-    private Boolean listaNegra;
+    private Boolean restringido;
 
     @Lob
     @Basic(optional = false, fetch = FetchType.EAGER)
     private byte[] fotografia;
 
-    @OneToMany(targetEntity = ConocimientoTecnicoProfesional.class, fetch = FetchType.EAGER, mappedBy ="profesional", orphanRemoval = true,cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = HabilidadProfesional.class, fetch = FetchType.EAGER, mappedBy ="profesional", orphanRemoval = true,cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<ConocimientoTecnicoProfesional> conocimientoTecnicoProfesional = new ArrayList<>();
+    private List<HabilidadProfesional> conocimientoProfesional = new ArrayList<>();
 
     @OneToMany(targetEntity = FormacionAcademicaProfesional.class, fetch = FetchType.EAGER, mappedBy ="profesional", orphanRemoval = true,cascade = CascadeType.ALL)
     @JsonManagedReference

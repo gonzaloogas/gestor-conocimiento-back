@@ -45,7 +45,7 @@ public class ProfesionalServiceImpl implements ProfesionalService{
         List<FormacionAcademicaProfesional> formacionAcademicas = profesionalCraeado.getFormacionAcademicaProfesional();
         formacionAcademicaRepository.saveAll(formacionAcademicas);
 
-        List<ConocimientoTecnicoProfesional> habilidades = profesionalCraeado.getConocimientoTecnicoProfesional();
+        List<HabilidadProfesional> habilidades = profesionalCraeado.getConocimientoProfesional();
         profesionalHabilidadRepository.saveAll(habilidades);
 
         return profesionalCraeado;
@@ -75,39 +75,36 @@ public class ProfesionalServiceImpl implements ProfesionalService{
         Profesional profesionalUpdate = profesionalRepository.findById(id).
                 orElseThrow(() -> new ProfesionalNotFoundException("Profesional no encontrado"));
 
-        if (Objects.equals(profesionalUpdate.getIdSap(), profesional.getIdSap())) {
-            throw new ProfesionalExistException("Id SAP ya existe en la base de datos");
-        }
- /*
-        Cliente nuevoCliente = clienteRepository.findById(profesional.getCliente().getId()).
-                orElseThrow(() -> new ClienteNotFoundException("Cliente no encontrado"));
-*/
+        profesionalUpdate.setIdSap(profesional.getIdSap());
+        profesionalUpdate.setRut(profesional.getRut());
         profesionalUpdate.setNombres(profesional.getNombres());
         profesionalUpdate.setAPaterno(profesional.getAPaterno());
         profesionalUpdate.setAMaterno(profesional.getAMaterno());
+        profesionalUpdate.setFechaNacimiento(profesional.getFechaNacimiento());
+        profesionalUpdate.setNacionalidad(profesional.getNacionalidad());
         profesionalUpdate.setNivelExperiencia(profesional.getNivelExperiencia());
         profesionalUpdate.setAnioExperiencia(profesional.getAnioExperiencia());
 
 
         //conocimiento tecnico
-        List<ConocimientoTecnicoProfesional> habilidades = new ArrayList<>();
-        for(ConocimientoTecnicoProfesional habilidadRq: profesional.getConocimientoTecnicoProfesional()){
+        List<HabilidadProfesional> habilidades = new ArrayList<>();
+        for(HabilidadProfesional habilidadRq: profesional.getConocimientoProfesional()){
 
             if(habilidadRq.getId()!=null){
                 //update
-                ConocimientoTecnicoProfesional habilidadBd = profesionalHabilidadRepository.findById(habilidadRq.getId()).orElseThrow(() -> new HabilidadNotFoundException("Habilidad no encontrada"));
+                HabilidadProfesional habilidadBd = profesionalHabilidadRepository.findById(habilidadRq.getId()).orElseThrow(() -> new HabilidadNotFoundException("Habilidad no encontrada"));
                 habilidadBd.setNivelCompetencia(habilidadRq.getNivelCompetencia());
                 profesionalHabilidadRepository.save(habilidadBd);
             }else {
                 //insert
-                ConocimientoTecnicoProfesional nuevaHabilidad = new ConocimientoTecnicoProfesional();
-                nuevaHabilidad.setHabilidadTecnologica(habilidadRq.getHabilidadTecnologica());
+                HabilidadProfesional nuevaHabilidad = new HabilidadProfesional();
+                nuevaHabilidad.setHabilidad(habilidadRq.getHabilidad());
                 nuevaHabilidad.setNivelCompetencia(habilidadRq.getNivelCompetencia());
                 nuevaHabilidad.setProfesional(profesionalUpdate);
                 habilidades.add(nuevaHabilidad);
             }
         }
-        profesionalUpdate.getConocimientoTecnicoProfesional().addAll(habilidades);
+        profesionalUpdate.getConocimientoProfesional().addAll(habilidades);
 
         //idiomas
         List<IdiomaProfesional> idiomas = new ArrayList<>();
