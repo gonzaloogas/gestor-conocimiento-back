@@ -12,13 +12,13 @@ import java.util.Optional;
 @Service
 public interface ProfesionalService {
 
-    public Profesional crearProfesional(Profesional profesional) throws ClienteNotFoundException, ProfesionalExistException;
+    public Profesional crearProfesional(Profesional profesional) throws DataNotFoundException;
 
-    public Optional<Profesional> listarProfesionalPorId(Long id) throws ProfesionalNotFoundException;
+    public Optional<Profesional> listarProfesionalPorId(Long id) throws DataNotFoundException;
 
     public List<Profesional> listarProfesionales();
 
     public void eliminarProfesionalPorId(Long id);
 
-    public Profesional actualizarProfesional(Profesional profesional, Long id) throws ProfesionalNotFoundException, HabilidadNotFoundException, IdiomaNotFoundException, FormacionAcademicaNotFoundException, ClienteNotFoundException, ProfesionalExistException;
+    public Profesional actualizarProfesional(Profesional profesional, Long id) throws  DataNotFoundException;
 }

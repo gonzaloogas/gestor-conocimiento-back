@@ -1,8 +1,6 @@
 package com.getronics.gestor_conocimiento_back.service;
 
-import com.getronics.gestor_conocimiento_back.exception.ClienteNotFoundException;
-import com.getronics.gestor_conocimiento_back.exception.HabilidadNotFoundException;
-import com.getronics.gestor_conocimiento_back.exception.ProfesionalNotFoundException;
+import com.getronics.gestor_conocimiento_back.exception.DataNotFoundException;
 import com.getronics.gestor_conocimiento_back.model.Cliente;
 import com.getronics.gestor_conocimiento_back.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +21,9 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
-    public Optional<Cliente> listarClientePorId(Long id) throws ClienteNotFoundException {
+    public Optional<Cliente> listarClientePorId(Long id) throws DataNotFoundException {
         return Optional.ofNullable(clienteRepository.findById(id).
-                orElseThrow(() -> new ClienteNotFoundException("Cliente no encontrado")));
+                orElseThrow(() -> new DataNotFoundException("Cliente no encontrado")));
     }
 
     @Override
@@ -39,9 +37,9 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
-    public Cliente actualizarCliente(Cliente cliente, Long id) throws ClienteNotFoundException {
+    public Cliente actualizarCliente(Cliente cliente, Long id) throws DataNotFoundException {
 
-        Cliente clienteBD = clienteRepository.findById(id).orElseThrow(() -> new ClienteNotFoundException("Cliente no encontrado"));
+        Cliente clienteBD = clienteRepository.findById(id).orElseThrow(() -> new DataNotFoundException("Cliente no encontrado"));
         clienteBD.setActivo(cliente.getActivo());
         clienteBD.setRubro(cliente.getRubro());
         clienteBD.setRazonSocial(cliente.getRazonSocial());

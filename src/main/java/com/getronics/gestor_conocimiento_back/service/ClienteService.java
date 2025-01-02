@@ -2,7 +2,6 @@ package com.getronics.gestor_conocimiento_back.service;
 
 import com.getronics.gestor_conocimiento_back.exception.*;
 import com.getronics.gestor_conocimiento_back.model.Cliente;
-import com.getronics.gestor_conocimiento_back.model.Profesional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,12 +12,12 @@ public interface ClienteService {
 
     public Cliente crearCliente(Cliente cliente);
 
-    public Optional<Cliente> listarClientePorId(Long id) throws ClienteNotFoundException;
+    public Optional<Cliente> listarClientePorId(Long id) throws DataNotFoundException;
 
     public List<Cliente> listarClientes();
 
     public void eliminarClientePorId(Long id);
 
-    public Cliente actualizarCliente(Cliente cliente, Long id) throws ClienteNotFoundException;
+    public Cliente actualizarCliente(Cliente cliente, Long id) throws DataNotFoundException;
 
 }

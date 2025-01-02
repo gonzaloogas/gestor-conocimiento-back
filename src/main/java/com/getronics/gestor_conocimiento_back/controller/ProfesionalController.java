@@ -26,18 +26,18 @@ public class ProfesionalController {
     private ProfesionalHabilidadService habilidadService;
 
     @PostMapping("/crear")
-    public ResponseEntity<Profesional> crearProfesional(@Valid @RequestBody Profesional profesional) throws ClienteNotFoundException, ProfesionalExistException {
+    public ResponseEntity<Profesional> crearProfesional(@Valid @RequestBody Profesional profesional) throws DataNotFoundException {
         return new ResponseEntity<>(profesionalService.crearProfesional(profesional), HttpStatus.CREATED);
     }
 
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<Profesional> actualizarProfesional(@Valid @RequestBody Profesional profesional,@PathVariable Long id) throws ProfesionalNotFoundException, HabilidadNotFoundException, FormacionAcademicaNotFoundException, IdiomaNotFoundException, ClienteNotFoundException, ProfesionalExistException {
+    public ResponseEntity<Profesional> actualizarProfesional(@Valid @RequestBody Profesional profesional,@PathVariable Long id) throws DataNotFoundException {
 
         return new ResponseEntity<>(profesionalService.actualizarProfesional(profesional, id),HttpStatus.OK);
     }
 
     @GetMapping("/listar/{id}")
-    public ResponseEntity<Optional<Profesional>> listarProfesionalPorId(@PathVariable("id") Long id) throws ProfesionalNotFoundException {
+    public ResponseEntity<Optional<Profesional>> listarProfesionalPorId(@PathVariable("id") Long id) throws DataNotFoundException {
         return new ResponseEntity<>(profesionalService.listarProfesionalPorId(id),HttpStatus.OK);
     }
 

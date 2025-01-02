@@ -6,11 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-@Data @NoArgsConstructor @AllArgsConstructor
-public class EstadoProfesional {
-
-
-
-    private String estado;
-    private String motivo;
+public enum EstadoProfesional {
+    ACTIVO,
+    ACTIVO_SIN_ASIGNACION,
+    INACTIVO_SIN_RESTRICCION,
+    INACTIVO_CON_RESTRICCION
 }

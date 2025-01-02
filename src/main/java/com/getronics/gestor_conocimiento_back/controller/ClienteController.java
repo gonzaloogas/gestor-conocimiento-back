@@ -1,8 +1,7 @@
 package com.getronics.gestor_conocimiento_back.controller;
 
-import com.getronics.gestor_conocimiento_back.exception.ClienteNotFoundException;
+import com.getronics.gestor_conocimiento_back.exception.DataNotFoundException;
 import com.getronics.gestor_conocimiento_back.model.Cliente;
-import com.getronics.gestor_conocimiento_back.model.Profesional;
 import com.getronics.gestor_conocimiento_back.service.ClienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +31,13 @@ public class ClienteController {
     }
 
     @GetMapping("/listar/{id}")
-    public ResponseEntity<Optional<Cliente>> listarClientePorId(@PathVariable("id") Long id) throws ClienteNotFoundException {
+    public ResponseEntity<Optional<Cliente>> listarClientePorId(@PathVariable("id") Long id) throws DataNotFoundException {
         return new ResponseEntity<>(clienteService.listarClientePorId(id),HttpStatus.OK);
     }
 
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<Cliente> actualizarCliente(@Valid @RequestBody Cliente cliente, @PathVariable Long id) throws ClienteNotFoundException {
+    public ResponseEntity<Cliente> actualizarCliente(@Valid @RequestBody Cliente cliente, @PathVariable Long id) throws DataNotFoundException {
 
         return new ResponseEntity<>(clienteService.actualizarCliente(cliente,id),HttpStatus.OK);
     }
-
 }

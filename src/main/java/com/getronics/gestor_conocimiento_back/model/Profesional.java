@@ -10,9 +10,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -78,7 +76,7 @@ public class Profesional  implements Serializable {
 
     private Boolean referido;
 
-    private Boolean restringido;
+    private EstadoProfesional estadoProfesional;
 
     @Lob
     @Basic(optional = false, fetch = FetchType.EAGER)
