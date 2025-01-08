@@ -40,7 +40,6 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
         Map<String, Object> errores = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(
                 error -> errores.put(error.getField(), error.getDefaultMessage()));
-
         return new ResponseEntity<>(errores,HttpStatus.BAD_REQUEST);
     }
 }

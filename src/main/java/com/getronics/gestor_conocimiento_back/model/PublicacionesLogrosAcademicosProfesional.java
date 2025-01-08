@@ -29,7 +29,6 @@ public class PublicacionesLogrosAcademicosProfesional implements Serializable {
     private String descripcion;
 
     @Column(name = "fecha_publicacion")
-    @NotEmpty(message = "El campo fecha de publicacion no debe ser vacio o nulo")
     private LocalDate fechaPublicacion;
 
     @Column(name = "medio_publicacion")
