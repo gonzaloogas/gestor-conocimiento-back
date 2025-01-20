@@ -7,7 +7,6 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Data
@@ -25,6 +24,8 @@ public class ExperienciaLaboralProfesional implements Serializable {
     private String cargo;
 
     @NotEmpty (message = "El valro del campo descripcion no debe ser vacio ni nulo")
+    @Column(columnDefinition="TEXT")
+    @Lob
     private String descripcion;
 
     @Column(name = "fecha_inicio")

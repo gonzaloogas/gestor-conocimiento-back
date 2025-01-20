@@ -45,12 +45,14 @@ public class ProfesionalServiceImpl implements ProfesionalService{
     public Profesional crearProfesional(Profesional profesional) throws DataNotFoundException {
 
         //valida que el id sap no exista en la base de datos
+        /*
         if(Profesional.class.isInstance(profesionalRepository.findByIdSap(profesional.getIdSap()))){
             throw new DataNotFoundException("Id SAP ya existe en la base de datos");
         }
-
+        */
         Profesional profesionalCraeado = profesionalRepository.save(profesional);
 
+        /*
         List<IdiomaProfesional> idiomasProfesional = profesionalCraeado.getIdiomasProfesional();
         idiomaRepository.saveAll(idiomasProfesional);
 
@@ -59,7 +61,7 @@ public class ProfesionalServiceImpl implements ProfesionalService{
 
         List<HabilidadProfesional> habilidades = profesionalCraeado.getConocimientoProfesional();
         profesionalHabilidadRepository.saveAll(habilidades);
-
+*/
         return profesionalCraeado;
     }
 

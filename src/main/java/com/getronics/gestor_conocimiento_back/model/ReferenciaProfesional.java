@@ -32,7 +32,6 @@ public class ReferenciaProfesional implements Serializable {
     @NotEmpty(message = "El campo telefono de contacto no puede ser vacio o nulo")
     private String telefonoContacto;
 
-    @NotEmpty(message = "El campo relacion con el candidato no puede ser vacio o nulo")
     private String relacionCandidato;
 
     @ManyToOne(targetEntity = Profesional.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)

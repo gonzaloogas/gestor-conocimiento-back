@@ -32,7 +32,6 @@ public class ProfesionalController {
 
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<Profesional> actualizarProfesional(@Valid @RequestBody Profesional profesional,@PathVariable Long id) throws DataNotFoundException {
-
         return new ResponseEntity<>(profesionalService.actualizarProfesional(profesional, id),HttpStatus.OK);
     }
 
@@ -51,5 +50,4 @@ public class ProfesionalController {
         profesionalService.eliminarProfesionalPorId(id);
         return new ResponseEntity<>("Profesional eliminado con exito",HttpStatus.OK);
     }
-
 }

@@ -25,7 +25,6 @@ public class Profesional  implements Serializable {
     @Column(name = "id_sap")
     private Long idSap;
 
-    @NotNull(message = "El campo rut no puede ser nulo")
     @NotEmpty(message = "El valor del campo rut no puede ser vacío")
     private String rut;
 
@@ -62,12 +61,14 @@ public class Profesional  implements Serializable {
     private Integer anioExperiencia;
 
     @NotEmpty (message = "El campo perfil profesional no puede ser nulo")
+    @Column(columnDefinition="TEXT")
+    @Lob
     private String perfilProfesional;
 
     @NotEmpty(message = "El valor del campo nivel experiencia no puede ser vacío")
     private String nivelExperiencia;
 
-    @NotNull (message = "El campo fecha ingreso getronics no puede ser nulo")
+    //@NotNull (message = "El campo fecha ingreso getronics no puede ser nulo")
     private LocalDate fechaIngresoGetronics;
 
     private LocalDate fechaEgresoGetronics;

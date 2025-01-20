@@ -24,11 +24,9 @@ public class FormacionAcademicaProfesional implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull (message = "El campo carrera no puede ser nulo")
     @NotEmpty(message = "El valor del campo carrera no puede ser vacío")
     private String carrera;
 
-    @NotNull (message = "El campo institución no puede ser nulo")
     @NotEmpty(message = "El valor del campo institución no puede ser vacío")
     private String institucion;
 
