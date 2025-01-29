@@ -9,13 +9,13 @@ import org.keycloak.admin.client.resource.UsersResource;
 
 public class KeycloakProvider {
 
-    private static final String SERVER_URL = "http://localhost:9090";
+    private static final String SERVER_URL = "http://localhost:8080";
     private static final String REALM_NAME = "g-manager-realm-dev";
     private static final String REALM_MASTER = "master";
     private static final String ADMIN_CLI = "admin-cli";
     private static final String USER_CONSOLE = "admin";
     private static final String PASSWORD_CONSOLE = "admin";
-    private static final String CLIENT_SECRET = "RLWVI4ABV6jBvbeohtUWdx2544R3M4JU";
+    private static final String CLIENT_SECRET = "6EsiuyFh9y9CAj9JXrSNdCWjz1nWZjv9";
 
     //Nos permite acceder a la api de keycloak
     public static RealmResource getRealmResource(){

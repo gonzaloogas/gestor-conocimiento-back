@@ -23,8 +23,6 @@ public class ProfesionalController {
 
     @Autowired
     private ProfesionalService profesionalService;
-    private ProfesionalIdiomaService idiomaService;
-    private ProfesionalHabilidadService habilidadService;
 
     @PostMapping("/crear")
     @PreAuthorize("hasRole('profesional_client_role') or hasRole('administrador_client_role')")
