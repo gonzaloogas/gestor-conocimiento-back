@@ -5,10 +5,12 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Entity
-@Table(name="Idiomas")
+@Table(name="catalogo_idiomas")
 @Data
-public class CatalogoIdioma {
+public class CatalogoIdioma implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

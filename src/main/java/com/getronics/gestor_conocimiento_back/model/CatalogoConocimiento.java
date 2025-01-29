@@ -8,28 +8,29 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name="habilidad_tecnologica")
-public class CatalogoConocimientoTecnologica {
+@Table(name="catalogo_conocimiento")
+public class CatalogoConocimiento implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "El campo nombre no puede ser nulo")
     @NotEmpty(message = "El valor del campo nombre no puede ser vacío")
     private String nombre;
 
-    @NotNull (message = "El campo categoría no puede ser nulo")
     @NotEmpty(message = "El valor del campo categoría no puede ser vacío")
     private String categoria;
 
-    @NotNull (message = "El campo descripcion no puede ser nulo")
     @NotEmpty(message = "El valor del campo descripcion no puede ser vacío")
     private String descripcion;
 
+    @Enumerated(EnumType.STRING)
+    private TipoHabilidad tipo;
 }

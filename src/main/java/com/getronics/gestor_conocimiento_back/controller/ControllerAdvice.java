@@ -4,6 +4,8 @@ import com.getronics.gestor_conocimiento_back.dto.ErrorDTO;
 import com.getronics.gestor_conocimiento_back.exception.*;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -20,34 +22,16 @@ import java.util.Map;
 @RestControllerAdvice
 public class ControllerAdvice extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = ProfesionalNotFoundException.class)
-    public ResponseEntity<ErrorDTO> profesionalNotFound(ProfesionalNotFoundException ex){
-        ErrorDTO error = ErrorDTO.builder().code("P-500").message(ex.getMessage()).build();
-        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
+    @ExceptionHandler(value = DataAccessException.class)
+    public ResponseEntity<ErrorDTO> ErrorBD(DataAccessException ex){
+        ErrorDTO error = ErrorDTO.builder().code("P-404").message(ex.getMessage()).build();
+        return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value = HabilidadNotFoundException.class)
-    public ResponseEntity<ErrorDTO> habilidadNotFound(HabilidadNotFoundException ex){
-        ErrorDTO error = ErrorDTO.builder().code("P-501").message(ex.getMessage()).build();
-        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(value = IdiomaNotFoundException.class)
-    public ResponseEntity<ErrorDTO> idiomaNotFound(IdiomaNotFoundException ex){
-        ErrorDTO error = ErrorDTO.builder().code("P-502").message(ex.getMessage()).build();
-        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(value = FormacionAcademicaNotFoundException.class)
-    public ResponseEntity<ErrorDTO> formacionNotFound(FormacionAcademicaNotFoundException ex){
-        ErrorDTO error = ErrorDTO.builder().code("P-503").message(ex.getMessage()).build();
-        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(value = ClienteNotFoundException.class)
-    public ResponseEntity<ErrorDTO> clienteNotFound(ClienteNotFoundException ex){
-        ErrorDTO error = ErrorDTO.builder().code("P-504").message(ex.getMessage()).build();
-        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
+    @ExceptionHandler(value = DataNotFoundException.class)
+    public ResponseEntity<ErrorDTO> dataNotFound(DataNotFoundException ex){
+        ErrorDTO error = ErrorDTO.builder().code("P-400").message(ex.getMessage()).build();
+        return new ResponseEntity<>(error,HttpStatus.CONFLICT);
     }
 
     @Override
@@ -56,7 +40,6 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
         Map<String, Object> errores = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(
                 error -> errores.put(error.getField(), error.getDefaultMessage()));
-
         return new ResponseEntity<>(errores,HttpStatus.BAD_REQUEST);
     }
 }

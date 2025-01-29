@@ -6,13 +6,14 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
 @Table(name="clientes")
-public class Cliente {
+public class Cliente implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,8 +34,12 @@ public class Cliente {
 
     private Boolean activo;
 
-    @OneToMany(targetEntity = Profesional.class, fetch = FetchType.EAGER, mappedBy ="cliente", orphanRemoval = true,cascade = CascadeType.ALL)
+    @Lob
+    @Basic(optional = false, fetch = FetchType.EAGER)
+    private byte[] logo;
+
+    @OneToMany(targetEntity = Proyecto.class, fetch = FetchType.EAGER, mappedBy ="cliente", orphanRemoval = true,cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<Profesional> profesionales = new ArrayList<>();
+    private List<Proyecto> proyectos = new ArrayList<>();
 
 }

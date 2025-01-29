@@ -1,7 +1,7 @@
 package com.getronics.gestor_conocimiento_back.service;
 
-import com.getronics.gestor_conocimiento_back.model.CatalogoConocimientoTecnologica;
-import com.getronics.gestor_conocimiento_back.repository.CatalogoHabilidadTecnologicaRepository;
+import com.getronics.gestor_conocimiento_back.model.CatalogoConocimiento;
+import com.getronics.gestor_conocimiento_back.repository.CatalogoHabilidadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,20 +12,20 @@ import java.util.Optional;
 public class CatalogoHablidadTecnologicaServiceImpl implements CatalogoHabilidadTecnologicaService{
 
     @Autowired
-    private CatalogoHabilidadTecnologicaRepository habilidadTecnologicaRepository;
+    private CatalogoHabilidadRepository habilidadTecnologicaRepository;
 
     @Override
-    public CatalogoConocimientoTecnologica crearHabilidadTecnologica(CatalogoConocimientoTecnologica habilidadTecnologica) {
+    public CatalogoConocimiento crearHabilidadTecnologica(CatalogoConocimiento habilidadTecnologica) {
         return habilidadTecnologicaRepository.save(habilidadTecnologica);
     }
 
     @Override
-    public Optional<CatalogoConocimientoTecnologica> listarHabilidadTecnologicaPorId(Long id) {
+    public Optional<CatalogoConocimiento> listarHabilidadTecnologicaPorId(Long id) {
         return habilidadTecnologicaRepository.findById(id);
     }
 
     @Override
-    public List<CatalogoConocimientoTecnologica> listarHabilidades() {
+    public List<CatalogoConocimiento> listarHabilidades() {
         return habilidadTecnologicaRepository.findAll();
     }
 }

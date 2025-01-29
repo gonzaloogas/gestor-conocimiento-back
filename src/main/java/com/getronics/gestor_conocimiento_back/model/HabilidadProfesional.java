@@ -2,7 +2,6 @@ package com.getronics.gestor_conocimiento_back.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,17 +14,25 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name="profesional_idioma")
-public class IdiomaProfesional implements Serializable {
+@Table(name="profesional_habilidad")
+public class HabilidadProfesional implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotEmpty
-    private String nombre;
-    @NotEmpty
-    private String nivelDominio;
+
     @ManyToOne(targetEntity = Profesional.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "profesional_id")
     @JsonBackReference
     private Profesional profesional;
+
+    private String habilidad;
+
+    @Enumerated(EnumType.STRING)
+    private TipoHabilidad tipoHabilidad;
+
+    private String aniosExperiencia;
+
+    @Enumerated(EnumType.STRING)
+    private NivelCompetenicia nivelCompetencia;
 }

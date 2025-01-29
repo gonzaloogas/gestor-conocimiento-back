@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.Year;
 
 @Entity
@@ -17,17 +18,15 @@ import java.time.Year;
 @NoArgsConstructor
 @Builder
 @Table(name="formacion_academica")
-public class FormacionAcademicaProfesional {
+public class FormacionAcademicaProfesional implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull (message = "El campo carrera no puede ser nulo")
     @NotEmpty(message = "El valor del campo carrera no puede ser vacío")
     private String carrera;
 
-    @NotNull (message = "El campo institución no puede ser nulo")
     @NotEmpty(message = "El valor del campo institución no puede ser vacío")
     private String institucion;
 
@@ -37,6 +36,11 @@ public class FormacionAcademicaProfesional {
 
     @Column(name = "anio_fin")
     private Year anioFin;
+
+    @NotNull (message = "El campo año inicio no puede ser nulo")
+    @Column(name = "situacion_academica")
+    private String situacionAcademica;
+
 
     @ManyToOne(targetEntity = Profesional.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonBackReference
