@@ -6,6 +6,7 @@ import com.getronics.gestor_conocimiento_back.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,6 +17,9 @@ public class ProfesionalServiceImpl implements ProfesionalService{
 
     @Autowired
     private ProfesionalRepository profesionalRepository;
+
+    @Autowired
+    private ProfesionalProyectoRepository profesionalProyectoRepository;
 
     @Autowired
     private ProfesionalIdiomaRepository idiomaRepository;
@@ -294,4 +298,8 @@ public class ProfesionalServiceImpl implements ProfesionalService{
         return profesionalRepository.save(profesionalUpdate);
     }
 
+    @Override
+    public void asignarProfesionalProyecto(ProfesionalProyecto profesionalProyecto) {
+        profesionalProyectoRepository.save(profesionalProyecto);
+    }
 }

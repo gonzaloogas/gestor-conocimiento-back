@@ -3,6 +3,7 @@ package com.getronics.gestor_conocimiento_back.controller;
 import com.getronics.gestor_conocimiento_back.exception.*;
 import com.getronics.gestor_conocimiento_back.model.IdiomaProfesional;
 import com.getronics.gestor_conocimiento_back.model.Profesional;
+import com.getronics.gestor_conocimiento_back.model.ProfesionalProyecto;
 import com.getronics.gestor_conocimiento_back.service.ProfesionalHabilidadService;
 import com.getronics.gestor_conocimiento_back.service.ProfesionalIdiomaService;
 import com.getronics.gestor_conocimiento_back.service.ProfesionalService;
@@ -53,5 +54,12 @@ public class ProfesionalController {
     public ResponseEntity<String> eliminarProfesionalPorId(@PathVariable("id") Long id){
         profesionalService.eliminarProfesionalPorId(id);
         return new ResponseEntity<>("Profesional eliminado con exito",HttpStatus.OK);
+    }
+
+    @PostMapping("/asignar-proyecto")
+    @PreAuthorize("hasRole('operador_client_role')")
+    public ResponseEntity<String> asignarProfesionalProyecto(@RequestBody ProfesionalProyecto profesionalProyecto){
+        profesionalService.asignarProfesionalProyecto(profesionalProyecto);
+        return new ResponseEntity<>("Profesional asignado correctamente",HttpStatus.OK);
     }
 }

@@ -31,6 +31,8 @@ public class Proyecto implements Serializable {
 
     private LocalDate fechaFin;
 
+    private EstadoProyecto estado;
+
 
     @ManyToOne(targetEntity = Cliente.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JsonBackReference
