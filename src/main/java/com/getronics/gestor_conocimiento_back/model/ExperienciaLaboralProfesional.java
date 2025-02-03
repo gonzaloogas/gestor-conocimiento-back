@@ -38,4 +38,16 @@ public class ExperienciaLaboralProfesional implements Serializable {
     @JsonBackReference
     private Profesional profesional;
 
+    @Override
+    public String toString() {
+
+        return  "{ empresa = '" + empresa + '\'' +
+                ", cargo = '" + cargo + '\'' +
+                ", descripcion = '" + descripcion + '\'' +
+                ", fechaInicio = '" + fechaInicio + '\'' +
+                ", fechaFin = '" + fechaFin + '\'' +
+                '}';
+
+    }
+
 }

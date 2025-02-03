@@ -40,4 +40,16 @@ public class CertificacionProfesional implements Serializable {
     @ManyToOne(targetEntity = Profesional.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JsonBackReference
     private Profesional profesional;
+
+    @Override
+    public String toString() {
+
+        return  "{ nombreCertificacion = '" + nombreCertificacion + '\'' +
+                ", institucionEmisora = '" + institucionEmisora + '\'' +
+                ", fechaEmision = '" + fechaEmision + '\'' +
+                ", fechaVencimiento = '" + fechaVencimiento + '\'' +
+                ", codigoCertificado = '" + codigoCertificado + '\'' +
+                '}';
+
+    }
 }

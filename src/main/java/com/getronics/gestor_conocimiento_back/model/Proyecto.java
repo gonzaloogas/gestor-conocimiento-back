@@ -41,4 +41,19 @@ public class Proyecto implements Serializable {
 
     @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL)
     private List<ProfesionalProyecto> profesionales = new ArrayList<>();
+
+    @Override
+    public String toString() {
+
+        return  "{ id = '" + id + '\'' +
+                ", nombre = '" + nombre + '\'' +
+                ", descripcion = '" + descripcion + '\'' +
+                ", fechaInicio = '" + fechaInicio + '\'' +
+                ", fechaFin = '" + fechaFin + '\'' +
+                ", estado = '" + estado + '\'' +
+                ", cliente = '" + cliente + '\'' +
+                ", profesionales = '" + profesionales + '\'' +
+                '}';
+
+    }
 }

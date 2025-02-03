@@ -42,4 +42,17 @@ public class Cliente implements Serializable {
     @JsonManagedReference
     private List<Proyecto> proyectos = new ArrayList<>();
 
+    @Override
+    public String toString() {
+
+        return  "{ id = '" + id + '\'' +
+                ", rut = '" + rut + '\'' +
+                ", razonSocial = '" + razonSocial + '\'' +
+                ", rubro = '" + rubro + '\'' +
+                ", logo = '" + logo + '\'' +
+                ", proyectos = '" + proyectos + '\'' +
+                '}';
+
+    }
+
 }

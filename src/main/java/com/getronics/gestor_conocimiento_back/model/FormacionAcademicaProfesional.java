@@ -46,4 +46,16 @@ public class FormacionAcademicaProfesional implements Serializable {
     @JsonBackReference
     private Profesional profesional;
 
+    @Override
+    public String toString() {
+
+        return  "{ carrera = '" + carrera + '\'' +
+                ", institucion = '" + institucion + '\'' +
+                ", anioInicio = '" + anioInicio + '\'' +
+                ", anioFin = '" + anioFin + '\'' +
+                ", situacionAcademica = '" + situacionAcademica + '\'' +
+                '}';
+
+    }
+
 }

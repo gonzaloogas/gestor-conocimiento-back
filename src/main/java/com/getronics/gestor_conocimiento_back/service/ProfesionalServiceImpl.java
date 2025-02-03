@@ -6,6 +6,15 @@ import com.getronics.gestor_conocimiento_back.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+//Para buscar el nombre de la persona en el jwt
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
+
+//logger
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +23,21 @@ import java.util.Optional;
 
 @Service
 public class ProfesionalServiceImpl implements ProfesionalService{
+
+    //Para el log
+    private static final Logger logger =LogManager.getLogger(ProfesionalServiceImpl.class);
+
+    //Para buscar el nombre de la persona que accede al método
+    private String getAuthenticatedUserNameFromJwt() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.getPrincipal() instanceof Jwt) {
+            Jwt jwt = (Jwt) authentication.getPrincipal();
+            // Aquí se obtiene el claim "name" del JWT, si está disponible
+            return jwt.getClaim("name");  // Usa el nombre del claim que contiene el nombre real del usuario
+        }
+        return "Desconocido";
+    }
 
     @Autowired
     private ProfesionalRepository profesionalRepository;
@@ -54,7 +78,14 @@ public class ProfesionalServiceImpl implements ProfesionalService{
             throw new DataNotFoundException("Id SAP ya existe en la base de datos");
         }
         */
+
+        // Obtiene el nombre del usuario desde el JWT
+        String name = getAuthenticatedUserNameFromJwt();
+        logger.info("{} creó a Profesional: {}", name, profesional);
+
         Profesional profesionalCraeado = profesionalRepository.save(profesional);
+
+        logger.info("{} guardó a Profesional: {}", name, profesionalCraeado);
 
         /*
         List<IdiomaProfesional> idiomasProfesional = profesionalCraeado.getIdiomasProfesional();
@@ -72,6 +103,8 @@ public class ProfesionalServiceImpl implements ProfesionalService{
     @Override
     public Optional<Profesional> listarProfesionalPorId(Long id) throws DataNotFoundException {
 
+        String name = getAuthenticatedUserNameFromJwt();
+        logger.info("{} buscó al profesional con id: {}", name, id);
         return Optional.of(profesionalRepository.findById(id).
                 orElseThrow(() -> new DataNotFoundException("Profesional no encontrado")));
     }
@@ -79,16 +112,25 @@ public class ProfesionalServiceImpl implements ProfesionalService{
     @Override
     public List<Profesional> listarProfesionales() {
 
+        String name = getAuthenticatedUserNameFromJwt();
+        logger.info("{} buscó a todos los profesionales", name);
         return profesionalRepository.findAll();
     }
 
     @Override
     public void eliminarProfesionalPorId(Long id) {
+
+        String name = getAuthenticatedUserNameFromJwt();
+        logger.info("(ANTES) {} eliminó al profesional con id: {}", name, id);
         profesionalRepository.deleteById(id);
+        logger.info("(DESPUES) {} eliminó al profesional con id: {}", name, id);
     }
 
     @Override
     public Profesional actualizarProfesional(Profesional profesional, Long id) throws DataNotFoundException {
+
+        String name = getAuthenticatedUserNameFromJwt();
+        logger.info("(ANTES) {} Actualizó al Profesional con id : {}, Profesional:  {}", name, id, profesional);
 
         Profesional profesionalUpdate = profesionalRepository.findById(id).
                 orElseThrow(() -> new DataNotFoundException("Profesional no encontrado"));
@@ -295,11 +337,17 @@ public class ProfesionalServiceImpl implements ProfesionalService{
         }
         profesionalUpdate.getRrssPortafolioProfesional().addAll(redesSocialesPortafolioList);
 
+        logger.info("(DESPUES) {} Actualizó al Profesional con id : {}, Profesional:  {}", name, id, profesionalUpdate);
+
         return profesionalRepository.save(profesionalUpdate);
     }
 
     @Override
     public void asignarProfesionalProyecto(ProfesionalProyecto profesionalProyecto) {
+
+        String name = getAuthenticatedUserNameFromJwt();
+        logger.info(" {} asignó el proyecto {}", name, profesionalProyecto);
+
         profesionalProyectoRepository.save(profesionalProyecto);
     }
 }

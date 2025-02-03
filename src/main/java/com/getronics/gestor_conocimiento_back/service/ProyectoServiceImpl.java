@@ -6,11 +6,35 @@ import com.getronics.gestor_conocimiento_back.repository.ProyectoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+//Para buscar el nombre de la persona en el jwt
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
+
+//logger
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ProyectoServiceImpl implements ProyectoService{
+
+    //Para el log
+    private static final Logger logger =LogManager.getLogger(ProyectoServiceImpl.class);
+
+    //Para buscar el nombre de la persona que accede al método
+    private String getAuthenticatedUserNameFromJwt() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.getPrincipal() instanceof Jwt) {
+            Jwt jwt = (Jwt) authentication.getPrincipal();
+            // Aquí se obtiene el claim "name" del JWT, si está disponible
+            return jwt.getClaim("name");  // Usa el nombre del claim que contiene el nombre real del usuario
+        }
+        return "Desconocido";
+    }
 
     @Autowired
     private ProyectoRepository proyectoRepository;
@@ -18,16 +42,27 @@ public class ProyectoServiceImpl implements ProyectoService{
     @Override
     public Proyecto crearProyecto(Proyecto proyecto) {
 
+        String name = getAuthenticatedUserNameFromJwt();
+        logger.info("{} creó el proyecto {}", name, proyecto);
+
         return proyectoRepository.save(proyecto);
     }
 
     @Override
     public Optional<Proyecto> listarProyectoPorId(Long id) throws DataNotFoundException {
+
+        String name = getAuthenticatedUserNameFromJwt();
+        logger.info("{} buscó el proyecto con el id: {}", name, id);
+
         return proyectoRepository.findById(id);
     }
 
     @Override
     public List<Proyecto> listarProyectos() {
+
+        String name = getAuthenticatedUserNameFromJwt();
+        logger.info("{} buscó todos los proyectos", name);
+
         return proyectoRepository.findAll();
     }
 
@@ -37,6 +72,9 @@ public class ProyectoServiceImpl implements ProyectoService{
         Proyecto proyectoDB = proyectoRepository.findById(id).
                 orElseThrow(() -> new DataNotFoundException("Proyecto no encontrado"));
 
+        String name = getAuthenticatedUserNameFromJwt();
+        logger.info("(ANTES) {} actualizó el Proyecto con id: {}, Proyecto: {}", name, id, proyecto);
+
         proyectoDB.setNombre(proyecto.getNombre());
         proyectoDB.setDescripcion(proyecto.getDescripcion());
         proyectoDB.setFechaInicio(proyecto.getFechaInicio());
@@ -44,11 +82,18 @@ public class ProyectoServiceImpl implements ProyectoService{
         proyectoDB.setEstado(proyecto.getEstado());
         proyectoDB.setCliente(proyecto.getCliente());
 
+
+        logger.info("(DESPUES) {} actualizó el Proyecto con id: {}, Proyecto: {}", name, id, proyectoDB);
+
         return proyectoRepository.save(proyectoDB);
     }
 
     @Override
     public void deleteProyecto(Long id) {
+
+        String name = getAuthenticatedUserNameFromJwt();
+        logger.info("(ANTES) {} eliminó el Proyecto con id: {}", name, id);
+
         proyectoRepository.deleteById(id);
     }
 }

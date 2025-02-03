@@ -27,4 +27,12 @@ public class RedesSocialesPortafolioProfesional implements Serializable {
     @ManyToOne(targetEntity = Profesional.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JsonBackReference
     private Profesional profesional;
+
+    @Override
+    public String toString() {
+
+        return  "{ url = '" + url + '\'' +
+                '}';
+
+    }
 }

@@ -26,4 +26,13 @@ public class ProfesionalProyecto implements Serializable {
 
     private LocalDate ingresoAlProyecto;
 
+    @Override
+    public String toString() {
+
+        return  "{ proyecto = '" + proyecto + '\'' +
+                ", porcentajeParticipacion = '" + porcentajeParticipacion + '\'' +
+                ", ingresoAlProyecto = '" + ingresoAlProyecto + '\'' +
+                '}';
+    }
+
 }
