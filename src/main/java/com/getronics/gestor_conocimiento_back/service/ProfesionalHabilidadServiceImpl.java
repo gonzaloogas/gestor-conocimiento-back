@@ -1,6 +1,7 @@
 package com.getronics.gestor_conocimiento_back.service;
 
 import com.getronics.gestor_conocimiento_back.repository.ProfesionalHabilidadRepository;
+import com.getronics.gestor_conocimiento_back.util.JwtExtract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 
@@ -18,17 +19,8 @@ public class ProfesionalHabilidadServiceImpl implements  ProfesionalHabilidadSer
     //Para el log
     private static final Logger logger =LogManager.getLogger(ProfesionalHabilidadServiceImpl.class);
 
-    //Para buscar el nombre de la persona que accede al método
-    private String getAuthenticatedUserNameFromJwt() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null && authentication.getPrincipal() instanceof Jwt) {
-            Jwt jwt = (Jwt) authentication.getPrincipal();
-            // Aquí se obtiene el claim "name" del JWT, si está disponible
-            return jwt.getClaim("name");  // Usa el nombre del claim que contiene el nombre real del usuario
-        }
-        return "Desconocido";
-    }
+    @Autowired
+    JwtExtract jwtExtract;
 
     @Autowired
     ProfesionalHabilidadRepository profesionalHabilidadRepository;
@@ -36,7 +28,7 @@ public class ProfesionalHabilidadServiceImpl implements  ProfesionalHabilidadSer
     @Override
     public HttpStatusCode agregarHabilidad() {
 
-        String name = getAuthenticatedUserNameFromJwt();
+        String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
         logger.info("{} agrego una Habilidad.", name);
 
         return null;

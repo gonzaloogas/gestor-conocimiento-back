@@ -2,6 +2,7 @@ package com.getronics.gestor_conocimiento_back.service;
 
 import com.getronics.gestor_conocimiento_back.model.FormacionAcademicaProfesional;
 import com.getronics.gestor_conocimiento_back.repository.FormacionAcademicaRepository;
+import com.getronics.gestor_conocimiento_back.util.JwtExtract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,24 +23,15 @@ public class FormacionAcademicaServiceImpl implements FormacionAcademicaService{
     //Para el log
     private static final Logger logger =LogManager.getLogger(FormacionAcademicaServiceImpl.class);
 
-    //Para buscar el nombre de la persona que accede al método
-    private String getAuthenticatedUserNameFromJwt() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null && authentication.getPrincipal() instanceof Jwt) {
-            Jwt jwt = (Jwt) authentication.getPrincipal();
-            // Aquí se obtiene el claim "name" del JWT, si está disponible
-            return jwt.getClaim("name");  // Usa el nombre del claim que contiene el nombre real del usuario
-        }
-        return "Desconocido";
-    }
+    @Autowired
+    private JwtExtract jwtExtract;
 
     @Autowired
     private FormacionAcademicaRepository formacionAcademicaRepo;
 
     public FormacionAcademicaProfesional crearFormacionAcademica(FormacionAcademicaProfesional formacionAcademica){
 
-        String name = getAuthenticatedUserNameFromJwt();
+        String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
         logger.info("{} creó la Formacion Academica: {}", name, formacionAcademica);
 
         return formacionAcademicaRepo.save(formacionAcademica);
@@ -48,7 +40,7 @@ public class FormacionAcademicaServiceImpl implements FormacionAcademicaService{
     @Override
     public Optional<FormacionAcademicaProfesional> listarFormacionAcademicaPorId(Long id) {
 
-        String name = getAuthenticatedUserNameFromJwt();
+        String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
         logger.info("{} buscó la Formacion Academica con id: {}", name, id);
 
         return formacionAcademicaRepo.findById(id);

@@ -2,6 +2,8 @@ package com.getronics.gestor_conocimiento_back.service;
 
 import com.getronics.gestor_conocimiento_back.model.IdiomaProfesional;
 import com.getronics.gestor_conocimiento_back.repository.ProfesionalIdiomaRepository;
+import com.getronics.gestor_conocimiento_back.util.JwtExtract;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 //Para buscar el nombre de la persona en el jwt
@@ -22,24 +24,15 @@ public class ProfesionalIdiomaServiceImpl implements ProfesionalIdiomaService {
     //Para el log
     private static final Logger logger =LogManager.getLogger(ProfesionalIdiomaServiceImpl.class);
 
-    //Para buscar el nombre de la persona que accede al método
-    private String getAuthenticatedUserNameFromJwt() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null && authentication.getPrincipal() instanceof Jwt) {
-            Jwt jwt = (Jwt) authentication.getPrincipal();
-            // Aquí se obtiene el claim "name" del JWT, si está disponible
-            return jwt.getClaim("name");  // Usa el nombre del claim que contiene el nombre real del usuario
-        }
-        return "Desconocido";
-    }
+    @Autowired
+    private JwtExtract jwtExtract;
 
     private ProfesionalIdiomaRepository idiomaRepository;
 
     @Override
     public IdiomaProfesional crearIdioma(IdiomaProfesional idioma) {
 
-        String name = getAuthenticatedUserNameFromJwt();
+        String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
         logger.info("{} creó el idioma: {}", name, idioma);
 
         return idiomaRepository.save(idioma);
@@ -48,7 +41,7 @@ public class ProfesionalIdiomaServiceImpl implements ProfesionalIdiomaService {
     @Override
     public Optional<IdiomaProfesional> listarIdiomaPorId(Long id) {
 
-        String name = getAuthenticatedUserNameFromJwt();
+        String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
         logger.info("{} buscó el idioma con el id: {}", name, id);
 
         return idiomaRepository.findById(id);
@@ -57,7 +50,7 @@ public class ProfesionalIdiomaServiceImpl implements ProfesionalIdiomaService {
     @Override
     public List<IdiomaProfesional> listarIdiomas() {
 
-        String name = getAuthenticatedUserNameFromJwt();
+        String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
         logger.info("{} buscó todos los idiomas", name);
 
         return idiomaRepository.findAll();
