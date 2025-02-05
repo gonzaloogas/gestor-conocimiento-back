@@ -125,6 +125,32 @@ public class Profesional  implements Serializable {
     @Override
     public String toString() {
 
-        return "Profesional";
+        return "Profesional { " +
+                "id = '" + id + '\'' +
+                ", idSap = '" + idSap + '\'' +
+                ", rut = '" + rut + '\'' +
+                ", nombres = '" + nombres + '\'' +
+                ", Apellido Paterno = '" + aPaterno + '\'' +
+                ", Apellido Materno = '" + aMaterno + '\'' +
+                ", Fecha Nacimiento = '" + fechaNacimiento + '\'' +
+                ", Direccion = '" + direccion + '\'' +
+                ", telefono = '" + telefono + '\'' +
+                ", correoElectronico = '" + correoElectronico + '\'' +
+                ", anioExperiencia = '" + anioExperiencia + '\'' +
+                ", nivelExperiencia = '" + nivelExperiencia + '\'' +
+                ", nacionalidad = '" + nacionalidad + '\'' +
+                ", perfilProfesional = '" + perfilProfesional + '\'' +
+                ", certificacionProfesional = " + certificacionProfesional +
+                ", experienciaLaboralProfesional = " + experienciaLaboralProfesional +
+                ", conocimientoProfesional = " + conocimientoProfesional +
+                ", idiomasProfesional = '" + idiomasProfesional +
+                ", formacionAcademicaProfesional = " + formacionAcademicaProfesional +
+                ", rrssPortafolioProfesional = " + rrssPortafolioProfesional +
+                ", referenciaProfesional = " + referenciaProfesional +
+                ", publicacionesProfesional = " + publicacionesProfesional +
+                ", proyectos = " + proyectos +
+                ", fotografia = " + fotografia +
+                '}';
     }
+
 }

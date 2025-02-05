@@ -28,4 +28,12 @@ public class IdiomaProfesional implements Serializable {
     @ManyToOne(targetEntity = Profesional.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JsonBackReference
     private Profesional profesional;
+
+    @Override
+    public String toString() {
+
+        return "{ nombre = '" + nombre + '\'' +
+                ", nivelDominio = '" + nivelDominio + '\'' +
+                '}';
+    }
 }

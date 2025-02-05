@@ -1,0 +1,4 @@
+2025-02-05 10:15:43,764 INFO o.s.b.StartupInfoLogger [main] Starting GestorConocimientoBackApplication using Java 17.0.11 with PID 41520 (C:\ws\gestor-conocimiento-back\target\classes started by gogasalarcon in C:\ws\gestor-conocimiento-back)
+2025-02-05 10:15:43,775 DEBUG o.s.b.StartupInfoLogger [main] Running with Spring Boot v3.3.5, Spring v6.1.14
+2025-02-05 10:15:43,777 INFO o.s.b.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
+2025-02-05 10:15:57,638 INFO o.s.b.StartupInfoLogger [main] Started GestorConocimientoBackApplication in 14.419 seconds (process running for 16.509)

@@ -37,4 +37,16 @@ public class ReferenciaProfesional implements Serializable {
     @ManyToOne(targetEntity = Profesional.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JsonBackReference
     private Profesional profesional;
+
+    @Override
+    public String toString() {
+
+        return  "{ nombreReferente = '" + nombreReferente + '\'' +
+                ", cargo = '" + cargo + '\'' +
+                ", empresa = '" + empresa + '\'' +
+                ", telefonoContacto = '" + telefonoContacto + '\'' +
+                ", relacionCandidato = '" + relacionCandidato + '\'' +
+                '}';
+
+    }
 }

@@ -42,4 +42,15 @@ public class PublicacionesLogrosAcademicosProfesional implements Serializable {
     @ManyToOne(targetEntity = Profesional.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JsonBackReference
     private Profesional profesional;
+
+    @Override
+    public String toString() {
+
+        return  "{ tituloPublicacion = '" + tituloPublicacion + '\'' +
+                ", descripcion = '" + descripcion + '\'' +
+                ", fechaPublicacion = '" + fechaPublicacion + '\'' +
+                ", medioPublicacion = '" + medioPublicacion + '\'' +
+                ", enlacePublicacion = '" + enlacePublicacion + '\'' +
+                '}';
+    }
 }

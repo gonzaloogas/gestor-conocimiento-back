@@ -35,4 +35,15 @@ public class HabilidadProfesional implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private NivelCompetenicia nivelCompetencia;
+
+    @Override
+    public String toString() {
+
+        return  "{ habilidad = '" + habilidad + '\'' +
+                ", tipoHabilidad = '" + tipoHabilidad + '\'' +
+                ", aniosExperiencia = '" + aniosExperiencia + '\'' +
+                ", nivelCompetencia = '" + nivelCompetencia + '\'' +
+                '}';
+
+    }
 }
