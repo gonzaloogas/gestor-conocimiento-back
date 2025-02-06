@@ -25,6 +25,9 @@ public class Profesional  implements Serializable {
     @Column(name = "id_sap")
     private Long idSap;
 
+    @Column(name = "user_name")
+    private String username;
+
     @NotEmpty(message = "El valor del campo rut no puede ser vacío")
     private String rut;
 
@@ -55,6 +58,10 @@ public class Profesional  implements Serializable {
     @Email
     @Column(name = "correo_electronico")
     private String correoElectronico;
+
+    @Email
+    @Column(name = "correo_electronico_getronics")
+    private String correoElectronicoGetronics;
 
     @NotNull (message = "El campo años de experiencia no puede ser nulo")
     @Column(name="anio_experiencia")
