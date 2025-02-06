@@ -65,12 +65,9 @@ public class ProfesionalServiceImpl implements ProfesionalService{
     public Profesional crearProfesional(Profesional profesional) throws DataNotFoundException {
 
         //valida que el id sap no exista en la base de datos
-        /*
         if(Profesional.class.isInstance(profesionalRepository.findByIdSap(profesional.getIdSap()))){
             throw new DataNotFoundException("Id SAP ya existe en la base de datos");
         }
-        */
-
         // Obtiene el nombre del usuario desde el JWT
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
         logger.info("{} creó a Profesional: {}", name, profesional);
@@ -79,16 +76,6 @@ public class ProfesionalServiceImpl implements ProfesionalService{
 
         logger.info("{} guardó a Profesional: {}", name, profesionalCraeado);
 
-        /*
-        List<IdiomaProfesional> idiomasProfesional = profesionalCraeado.getIdiomasProfesional();
-        idiomaRepository.saveAll(idiomasProfesional);
-
-        List<FormacionAcademicaProfesional> formacionAcademicas = profesionalCraeado.getFormacionAcademicaProfesional();
-        formacionAcademicaRepository.saveAll(formacionAcademicas);
-
-        List<HabilidadProfesional> habilidades = profesionalCraeado.getConocimientoProfesional();
-        profesionalHabilidadRepository.saveAll(habilidades);
-*/
         return profesionalCraeado;
     }
 
@@ -128,6 +115,7 @@ public class ProfesionalServiceImpl implements ProfesionalService{
                 orElseThrow(() -> new DataNotFoundException("Profesional no encontrado"));
 
         profesionalUpdate.setIdSap(profesional.getIdSap());
+        profesionalUpdate.setUsername(profesional.getUsername());
         profesionalUpdate.setRut(profesional.getRut());
         profesionalUpdate.setNombres(profesional.getNombres());
         profesionalUpdate.setAPaterno(profesional.getAPaterno());
@@ -137,6 +125,7 @@ public class ProfesionalServiceImpl implements ProfesionalService{
         profesionalUpdate.setDireccion(profesional.getDireccion());
         profesionalUpdate.setTelefono(profesional.getTelefono());
         profesionalUpdate.setCorreoElectronico(profesional.getCorreoElectronico());
+        profesionalUpdate.setCorreoElectronicoGetronics(profesional.getCorreoElectronicoGetronics());
         profesionalUpdate.setPerfilProfesional(profesional.getPerfilProfesional());
         profesionalUpdate.setNivelExperiencia(profesional.getNivelExperiencia());
         profesionalUpdate.setAnioExperiencia(profesional.getAnioExperiencia());
