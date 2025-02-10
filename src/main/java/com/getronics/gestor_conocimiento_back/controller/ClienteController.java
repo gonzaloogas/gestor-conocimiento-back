@@ -1,5 +1,6 @@
 package com.getronics.gestor_conocimiento_back.controller;
 
+import com.getronics.gestor_conocimiento_back.dto.ClienteDTO;
 import com.getronics.gestor_conocimiento_back.exception.DataNotFoundException;
 import com.getronics.gestor_conocimiento_back.model.Cliente;
 import com.getronics.gestor_conocimiento_back.service.ClienteService;
@@ -23,26 +24,26 @@ public class ClienteController {
 
     @PostMapping("/crear")
     @PreAuthorize("hasRole('operador_client_role') or hasRole('administrador_client_role')")
-    public ResponseEntity<Cliente> crearCliente(@Valid @RequestBody Cliente cliente) {
-        return new ResponseEntity<>(clienteService.crearCliente(cliente), HttpStatus.CREATED);
+    public ResponseEntity<ClienteDTO> crearCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
+        return new ResponseEntity<>(clienteService.crearCliente(clienteDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("/listarTodos")
     @PreAuthorize("hasRole('operador_client_role') or hasRole('administrador_client_role')")
-    public ResponseEntity<List<Cliente>> listarClientes(){
+    public ResponseEntity<List<ClienteDTO>> listarClientes(){
         return new ResponseEntity<>(clienteService.listarClientes(),HttpStatus.OK);
     }
 
     @GetMapping("/listar/{id}")
     @PreAuthorize("hasRole('operador_client_role') or hasRole('administrador_client_role')")
-    public ResponseEntity<Optional<Cliente>> listarClientePorId(@PathVariable("id") Long id) throws DataNotFoundException {
+    public ResponseEntity<Optional<ClienteDTO>> listarClientePorId(@PathVariable("id") Long id) throws DataNotFoundException {
         return new ResponseEntity<>(clienteService.listarClientePorId(id),HttpStatus.OK);
     }
 
     @PutMapping("/actualizar/{id}")
     @PreAuthorize("hasRole('operador_client_role') or hasRole('administrador_client_role')")
-    public ResponseEntity<Cliente> actualizarCliente(@Valid @RequestBody Cliente cliente, @PathVariable Long id) throws DataNotFoundException {
+    public ResponseEntity<ClienteDTO> actualizarCliente(@Valid @RequestBody ClienteDTO clienteDTO, @PathVariable Long id) throws DataNotFoundException {
 
-        return new ResponseEntity<>(clienteService.actualizarCliente(cliente,id),HttpStatus.OK);
+        return new ResponseEntity<>(clienteService.actualizarCliente(clienteDTO,id),HttpStatus.OK);
     }
 }

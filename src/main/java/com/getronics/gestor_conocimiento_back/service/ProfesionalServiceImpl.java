@@ -1,5 +1,6 @@
 package com.getronics.gestor_conocimiento_back.service;
 
+import com.getronics.gestor_conocimiento_back.dto.*;
 import com.getronics.gestor_conocimiento_back.exception.*;
 import com.getronics.gestor_conocimiento_back.model.*;
 import com.getronics.gestor_conocimiento_back.repository.*;
@@ -62,7 +63,7 @@ public class ProfesionalServiceImpl implements ProfesionalService{
     private RedesSocialesPortafolioRepository redesSocialesPortafolioRepository;
 
     @Override
-    public Profesional crearProfesional(Profesional profesional) throws DataNotFoundException {
+    public ProfesionalDTO crearProfesional(ProfesionalDTO profesionalDTO) throws DataNotFoundException {
 
         //valida que el id sap no exista en la base de datos
         /*
@@ -73,11 +74,13 @@ public class ProfesionalServiceImpl implements ProfesionalService{
 
         // Obtiene el nombre del usuario desde el JWT
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
-        logger.info("{} creó a Profesional: {}", name, profesional);
+        logger.info("{} creó a Profesional: {}", name, profesionalDTO);
 
-        Profesional profesionalCraeado = profesionalRepository.save(profesional);
+        Profesional profesionalAGuardar = ProfesionalMapper.mapper.aEntidad(profesionalDTO);
 
-        logger.info("{} guardó a Profesional: {}", name, profesionalCraeado);
+        Profesional profesionalGuardado = profesionalRepository.save(profesionalAGuardar);
+
+        logger.info("{} guardó a Profesional: {}", name, profesionalGuardado);
 
         /*
         List<IdiomaProfesional> idiomasProfesional = profesionalCraeado.getIdiomasProfesional();
@@ -89,24 +92,25 @@ public class ProfesionalServiceImpl implements ProfesionalService{
         List<HabilidadProfesional> habilidades = profesionalCraeado.getConocimientoProfesional();
         profesionalHabilidadRepository.saveAll(habilidades);
 */
-        return profesionalCraeado;
+        return ProfesionalMapper.mapper.aDTO(profesionalGuardado);
     }
 
     @Override
-    public Optional<Profesional> listarProfesionalPorId(Long id) throws DataNotFoundException {
+    public Optional<ProfesionalDTO> listarProfesionalPorId(Long id) throws DataNotFoundException {
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
         logger.info("{} buscó al profesional con id: {}", name, id);
-        return Optional.of(profesionalRepository.findById(id).
-                orElseThrow(() -> new DataNotFoundException("Profesional no encontrado")));
+        return Optional.of(profesionalRepository.findById(id)
+                .map(ProfesionalMapper.mapper::aDTO)
+                .orElseThrow(() -> new DataNotFoundException("Profesional no encontrado")));
     }
 
     @Override
-    public List<Profesional> listarProfesionales() {
+    public List<ProfesionalDTO> listarProfesionales() {
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
         logger.info("{} buscó a todos los profesionales", name);
-        return profesionalRepository.findAll();
+        return ProfesionalMapper.mapper.aListaDTO(profesionalRepository.findAll());
     }
 
     @Override
@@ -119,36 +123,37 @@ public class ProfesionalServiceImpl implements ProfesionalService{
     }
 
     @Override
-    public Profesional actualizarProfesional(Profesional profesional, Long id) throws DataNotFoundException {
+    public ProfesionalDTO actualizarProfesional(ProfesionalDTO profesionalDTO, Long id) throws DataNotFoundException {
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
-        logger.info("(ANTES) {} Actualizó al Profesional con id : {}, Profesional:  {}", name, id, profesional);
+        logger.info("(ANTES) {} Actualizó al Profesional con id : {}, Profesional:  {}", name, id, profesionalDTO);
 
         Profesional profesionalUpdate = profesionalRepository.findById(id).
                 orElseThrow(() -> new DataNotFoundException("Profesional no encontrado"));
 
-        profesionalUpdate.setIdSap(profesional.getIdSap());
-        profesionalUpdate.setRut(profesional.getRut());
-        profesionalUpdate.setNombres(profesional.getNombres());
-        profesionalUpdate.setAPaterno(profesional.getAPaterno());
-        profesionalUpdate.setAMaterno(profesional.getAMaterno());
-        profesionalUpdate.setFechaNacimiento(profesional.getFechaNacimiento());
-        profesionalUpdate.setNacionalidad(profesional.getNacionalidad());
-        profesionalUpdate.setDireccion(profesional.getDireccion());
-        profesionalUpdate.setTelefono(profesional.getTelefono());
-        profesionalUpdate.setCorreoElectronico(profesional.getCorreoElectronico());
-        profesionalUpdate.setPerfilProfesional(profesional.getPerfilProfesional());
-        profesionalUpdate.setNivelExperiencia(profesional.getNivelExperiencia());
-        profesionalUpdate.setAnioExperiencia(profesional.getAnioExperiencia());
-        profesionalUpdate.setFechaIngresoGetronics(profesional.getFechaIngresoGetronics());
-        profesionalUpdate.setFechaEgresoGetronics(profesional.getFechaEgresoGetronics());
-        profesionalUpdate.setReferido(profesional.getReferido());
-        profesionalUpdate.setEstadoProfesional(profesional.getEstadoProfesional());
-        profesionalUpdate.setFotografia(profesional.getFotografia());
+        //produce un error al no agregarlo en el ProfesionalDTO
+        //profesionalUpdate.setIdSap(profesionalDTO.getIdSap());
+        profesionalUpdate.setRut(profesionalDTO.getRut());
+        profesionalUpdate.setNombres(profesionalDTO.getNombres());
+        profesionalUpdate.setAPaterno(profesionalDTO.getAPaterno());
+        profesionalUpdate.setAMaterno(profesionalDTO.getAMaterno());
+        profesionalUpdate.setFechaNacimiento(profesionalDTO.getFechaNacimiento());
+        profesionalUpdate.setNacionalidad(profesionalDTO.getNacionalidad());
+        profesionalUpdate.setDireccion(profesionalDTO.getDireccion());
+        profesionalUpdate.setTelefono(profesionalDTO.getTelefono());
+        profesionalUpdate.setCorreoElectronico(profesionalDTO.getCorreoElectronico());
+        profesionalUpdate.setPerfilProfesional(profesionalDTO.getPerfilProfesional());
+        profesionalUpdate.setNivelExperiencia(profesionalDTO.getNivelExperiencia());
+        profesionalUpdate.setAnioExperiencia(profesionalDTO.getAnioExperiencia());
+        profesionalUpdate.setFechaIngresoGetronics(profesionalDTO.getFechaIngresoGetronics());
+        profesionalUpdate.setFechaEgresoGetronics(profesionalDTO.getFechaEgresoGetronics());
+        profesionalUpdate.setReferido(profesionalDTO.getReferido());
+        profesionalUpdate.setEstadoProfesional(profesionalDTO.getEstadoProfesional());
+        profesionalUpdate.setFotografia(profesionalDTO.getFotografia());
 
         //conocimiento
         List<HabilidadProfesional> habilidades = new ArrayList<>();
-        for(HabilidadProfesional habilidadRq: profesional.getConocimientoProfesional()){
+        for(HabilidadProfesionalDTO habilidadRq: profesionalDTO.getConocimientoProfesional()){
 
             if(habilidadRq.getId()!=null){
                 //update
@@ -173,7 +178,7 @@ public class ProfesionalServiceImpl implements ProfesionalService{
 
         //idiomas
         List<IdiomaProfesional> idiomas = new ArrayList<>();
-        for(IdiomaProfesional idiomaRq : profesional.getIdiomasProfesional()){
+        for(IdiomaDTO idiomaRq : profesionalDTO.getIdiomasProfesional()){
             if(idiomaRq.getId()!=null){
                 IdiomaProfesional idiomaBd = idiomaRepository.findById(idiomaRq.getId()).orElseThrow(()-> new DataNotFoundException("Idioma no encontrado"));
                 idiomaBd.setNombre(idiomaRq.getNombre());
@@ -192,7 +197,7 @@ public class ProfesionalServiceImpl implements ProfesionalService{
 
         //formacion academica
         List<FormacionAcademicaProfesional> academicaList = new ArrayList<>();
-        for(FormacionAcademicaProfesional formacionAcademicaRq : profesional.getFormacionAcademicaProfesional()){
+        for(FormacionAcademicaProfesionalDTO formacionAcademicaRq : profesionalDTO.getFormacionAcademicaProfesional()){
             if(formacionAcademicaRq.getId()!=null){
                 FormacionAcademicaProfesional formacionAcademicaBd = formacionAcademicaRepository.findById(formacionAcademicaRq.getId()).orElseThrow(()-> new DataNotFoundException("Formación académica no encontrada"));
                 formacionAcademicaBd.setInstitucion(formacionAcademicaRq.getInstitucion());
@@ -216,7 +221,7 @@ public class ProfesionalServiceImpl implements ProfesionalService{
 
         //experiencia laboral
         List<ExperienciaLaboralProfesional> experienciaLaboralList = new ArrayList<>();
-        for(ExperienciaLaboralProfesional experienciaLaboralRq : profesional.getExperienciaLaboralProfesional()){
+        for(ExperienciaLaboralProfesionalDTO experienciaLaboralRq : profesionalDTO.getExperienciaLaboralProfesional()){
             if(experienciaLaboralRq.getId()!=null){
 
                 ExperienciaLaboralProfesional experienciaLaboralBd = experienciaLaboralRepository.findById(experienciaLaboralRq.getId()).orElseThrow(()->
@@ -242,7 +247,7 @@ public class ProfesionalServiceImpl implements ProfesionalService{
 
         //certificaciones del profesional
         List<CertificacionProfesional> certificacionesList = new ArrayList<>();
-        for (CertificacionProfesional certificacionProfesionalRq : profesional.getCertificacionProfesional()){
+        for (CertificacionProfesionalDTO certificacionProfesionalRq : profesionalDTO.getCertificacionProfesional()){
             if(certificacionProfesionalRq.getId()!=null){
                 CertificacionProfesional certificacionProfesionalBd = certificacionRepository.findById(certificacionProfesionalRq.getId()).orElseThrow(()->
                         new DataNotFoundException("Certificación profesional no encontrada"));
@@ -265,7 +270,7 @@ public class ProfesionalServiceImpl implements ProfesionalService{
 
         //referencia profesional
         List<ReferenciaProfesional> referenciasList = new ArrayList<>();
-        for (ReferenciaProfesional referenciaProfesionalRq : profesional.getReferenciaProfesional()){
+        for (ReferenciaProfesionalDTO referenciaProfesionalRq : profesionalDTO.getReferenciaProfesional()){
             if(referenciaProfesionalRq.getId()!=null){
                 ReferenciaProfesional referenciaProfesionalBd = referenciaRepository.findById(referenciaProfesionalRq.getId()).orElseThrow(()-> new DataNotFoundException("Referencia laboral no encontrada"));
                 referenciaProfesionalBd.setCargo(referenciaProfesionalRq.getCargo());
@@ -289,7 +294,7 @@ public class ProfesionalServiceImpl implements ProfesionalService{
 
         //logros academicos
         List<PublicacionesLogrosAcademicosProfesional> logrosAcademicosList = new ArrayList<>();
-        for(PublicacionesLogrosAcademicosProfesional logrosAcademicosRq : profesional.getPublicacionesProfesional()){
+        for(PublicacionesLogrosAcademicosProfesionalDTO logrosAcademicosRq : profesionalDTO.getPublicacionesProfesional()){
             if(logrosAcademicosRq.getId()!=null){
                 PublicacionesLogrosAcademicosProfesional logrosAcademicosBd = logrosAcademicosRepository.findById(logrosAcademicosRq.getId()).
                         orElseThrow(()-> new DataNotFoundException("Logro academico no encontrado"));
@@ -314,7 +319,7 @@ public class ProfesionalServiceImpl implements ProfesionalService{
 
         //rrss portafolio
         List<RedesSocialesPortafolioProfesional> redesSocialesPortafolioList = new ArrayList<>();
-        for(RedesSocialesPortafolioProfesional redesSocialesPortafolioRq : profesional.getRrssPortafolioProfesional()){
+        for(RedesSocialesPortafolioProfesionalDTO redesSocialesPortafolioRq : profesionalDTO.getRrssPortafolioProfesional()){
             if(redesSocialesPortafolioRq.getId()!=null){
                 RedesSocialesPortafolioProfesional redesSocialesPortafolioBd = redesSocialesPortafolioRepository.findById(redesSocialesPortafolioRq.getId()).
                         orElseThrow(()-> new DataNotFoundException("RRSS o portafolio no encontrado"));
@@ -329,16 +334,20 @@ public class ProfesionalServiceImpl implements ProfesionalService{
         }
         profesionalUpdate.getRrssPortafolioProfesional().addAll(redesSocialesPortafolioList);
 
-        logger.info("(DESPUES) {} Actualizó al Profesional con id : {}, Profesional:  {}", name, id, profesionalUpdate);
+        Profesional profesionalActualizado = profesionalRepository.save(profesionalUpdate);
 
-        return profesionalRepository.save(profesionalUpdate);
+        logger.info("(DESPUES) {} Actualizó al Profesional con id : {}, Profesional:  {}", name, id, profesionalActualizado);
+
+        return ProfesionalMapper.mapper.aDTO(profesionalActualizado);
     }
 
     @Override
-    public void asignarProfesionalProyecto(ProfesionalProyecto profesionalProyecto) {
+    public void asignarProfesionalProyecto(ProfesionalProyectoDTO profesionalProyectoDTO) {
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
-        logger.info(" {} asignó el proyecto {}", name, profesionalProyecto);
+        logger.info(" {} asignó el proyecto {}", name, profesionalProyectoDTO);
+
+        ProfesionalProyecto profesionalProyecto = ProfesionalProyectoMapper.mapper.aEntidad(profesionalProyectoDTO);
 
         profesionalProyectoRepository.save(profesionalProyecto);
     }

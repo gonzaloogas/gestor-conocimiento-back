@@ -1,5 +1,7 @@
 package com.getronics.gestor_conocimiento_back.controller;
 
+import com.getronics.gestor_conocimiento_back.dto.ProfesionalDTO;
+import com.getronics.gestor_conocimiento_back.dto.ProfesionalProyectoDTO;
 import com.getronics.gestor_conocimiento_back.exception.*;
 import com.getronics.gestor_conocimiento_back.model.IdiomaProfesional;
 import com.getronics.gestor_conocimiento_back.model.Profesional;
@@ -27,25 +29,25 @@ public class ProfesionalController {
 
     @PostMapping("/crear")
     @PreAuthorize("hasRole('profesional_client_role') or hasRole('administrador_client_role')")
-    public ResponseEntity<Profesional> crearProfesional(@Valid @RequestBody Profesional profesional) throws DataNotFoundException {
-        return new ResponseEntity<>(profesionalService.crearProfesional(profesional), HttpStatus.CREATED);
+    public ResponseEntity<ProfesionalDTO> crearProfesional(@Valid @RequestBody ProfesionalDTO profesionalDTO) throws DataNotFoundException {
+        return new ResponseEntity<>(profesionalService.crearProfesional(profesionalDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/actualizar/{id}")
     @PreAuthorize("hasRole('profesional_client_role') or hasRole('administrador_client_role')")
-    public ResponseEntity<Profesional> actualizarProfesional(@Valid @RequestBody Profesional profesional,@PathVariable Long id) throws DataNotFoundException {
-        return new ResponseEntity<>(profesionalService.actualizarProfesional(profesional, id),HttpStatus.OK);
+    public ResponseEntity<ProfesionalDTO> actualizarProfesional(@Valid @RequestBody ProfesionalDTO profesionalDTO,@PathVariable Long id) throws DataNotFoundException {
+        return new ResponseEntity<>(profesionalService.actualizarProfesional(profesionalDTO, id),HttpStatus.OK);
     }
 
     @GetMapping("/listar/{id}")
     @PreAuthorize("hasRole('profesional_client_role') or hasRole('administrador_client_role') or hasRole('operador_client_role')")
-    public ResponseEntity<Optional<Profesional>> listarProfesionalPorId(@PathVariable("id") Long id) throws DataNotFoundException {
+    public ResponseEntity<Optional<ProfesionalDTO>> listarProfesionalPorId(@PathVariable("id") Long id) throws DataNotFoundException {
         return new ResponseEntity<>(profesionalService.listarProfesionalPorId(id),HttpStatus.OK);
     }
 
     @GetMapping("/listarTodos")
     @PreAuthorize("hasRole('operador_client_role') or hasRole('administrador_client_role')")
-    public ResponseEntity<List<Profesional>> listarProfesional(){
+    public ResponseEntity<List<ProfesionalDTO>> listarProfesional(){
         return new ResponseEntity<>(profesionalService.listarProfesionales(),HttpStatus.OK);
     }
 
@@ -58,8 +60,8 @@ public class ProfesionalController {
 
     @PostMapping("/asignar-proyecto")
     @PreAuthorize("hasRole('operador_client_role')")
-    public ResponseEntity<String> asignarProfesionalProyecto(@RequestBody ProfesionalProyecto profesionalProyecto){
-        profesionalService.asignarProfesionalProyecto(profesionalProyecto);
+    public ResponseEntity<String> asignarProfesionalProyecto(@RequestBody ProfesionalProyectoDTO profesionalProyectoDTO){
+        profesionalService.asignarProfesionalProyecto(profesionalProyectoDTO);
         return new ResponseEntity<>("Profesional asignado correctamente",HttpStatus.OK);
     }
 }

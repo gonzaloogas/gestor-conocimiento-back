@@ -1,5 +1,6 @@
 package com.getronics.gestor_conocimiento_back.controller;
 
+import com.getronics.gestor_conocimiento_back.dto.CatalogoIdiomaDTO;
 import com.getronics.gestor_conocimiento_back.model.CatalogoIdioma;
 import com.getronics.gestor_conocimiento_back.service.IdiomaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class IdiomaController {
     private IdiomaService idiomaService;
 
     @GetMapping("/listar")
-    public ResponseEntity<List<CatalogoIdioma>> listarIdiomas(){
+    public ResponseEntity<List<CatalogoIdiomaDTO>> listarIdiomas(){
         return new ResponseEntity<>(idiomaService.listarIdiomas(),HttpStatus.OK);
     }
 }

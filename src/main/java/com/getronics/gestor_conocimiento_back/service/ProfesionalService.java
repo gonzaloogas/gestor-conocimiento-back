@@ -1,5 +1,7 @@
 package com.getronics.gestor_conocimiento_back.service;
 
+import com.getronics.gestor_conocimiento_back.dto.ProfesionalDTO;
+import com.getronics.gestor_conocimiento_back.dto.ProfesionalProyectoDTO;
 import com.getronics.gestor_conocimiento_back.exception.*;
 import com.getronics.gestor_conocimiento_back.model.Profesional;
 import com.getronics.gestor_conocimiento_back.model.ProfesionalProyecto;
@@ -14,15 +16,15 @@ import java.util.Optional;
 @Service
 public interface ProfesionalService {
 
-    public Profesional crearProfesional(Profesional profesional) throws DataNotFoundException;
+    public ProfesionalDTO crearProfesional(ProfesionalDTO profesionalDTO) throws DataNotFoundException;
 
-    public Optional<Profesional> listarProfesionalPorId(Long id) throws DataNotFoundException;
+    public Optional<ProfesionalDTO> listarProfesionalPorId(Long id) throws DataNotFoundException;
 
-    public List<Profesional> listarProfesionales();
+    public List<ProfesionalDTO> listarProfesionales();
 
     public void eliminarProfesionalPorId(Long id);
 
-    public Profesional actualizarProfesional(Profesional profesional, Long id) throws  DataNotFoundException;
+    public ProfesionalDTO actualizarProfesional(ProfesionalDTO profesionalDTO, Long id) throws  DataNotFoundException;
 
-    public void asignarProfesionalProyecto(ProfesionalProyecto profesionalProyecto);
+    public void asignarProfesionalProyecto(ProfesionalProyectoDTO profesionalProyectoDTO);
 }

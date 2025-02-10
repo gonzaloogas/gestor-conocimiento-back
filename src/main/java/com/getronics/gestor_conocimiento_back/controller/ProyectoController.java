@@ -1,5 +1,6 @@
 package com.getronics.gestor_conocimiento_back.controller;
 
+import com.getronics.gestor_conocimiento_back.dto.ProyectoDTO;
 import com.getronics.gestor_conocimiento_back.exception.DataNotFoundException;
 import com.getronics.gestor_conocimiento_back.model.Cliente;
 import com.getronics.gestor_conocimiento_back.model.Proyecto;
@@ -25,25 +26,25 @@ public class ProyectoController {
 
     @PostMapping("/crear")
     @PreAuthorize("hasRole('profesional_client_role') or hasRole('administrador_client_role')")
-    public ResponseEntity<Proyecto> crearProyecto(@Valid @RequestBody Proyecto proyecto){
-        return new ResponseEntity<Proyecto>(proyectoService.crearProyecto(proyecto), HttpStatus.CREATED);
+    public ResponseEntity<ProyectoDTO> crearProyecto(@Valid @RequestBody ProyectoDTO proyecto){
+        return new ResponseEntity<ProyectoDTO>(proyectoService.crearProyecto(proyecto), HttpStatus.CREATED);
     }
 
     @PutMapping("/actualizar/{id}")
     @PreAuthorize("hasRole('profesional_client_role') or hasRole('administrador_client_role')")
-    public ResponseEntity<Proyecto> actualizarProyecto(@Valid @RequestBody Proyecto proyecto,@PathVariable Long id) throws DataNotFoundException {
+    public ResponseEntity<ProyectoDTO> actualizarProyecto(@Valid @RequestBody ProyectoDTO proyecto,@PathVariable Long id) throws DataNotFoundException {
         return new ResponseEntity<>(proyectoService.actualizarProyecto(proyecto, id),HttpStatus.OK);
     }
 
     @GetMapping("/listarTodos")
     @PreAuthorize("hasRole('profesional_client_role') or hasRole('administrador_client_role')")
-    public ResponseEntity<List<Proyecto>> listarProyectos(){
+    public ResponseEntity<List<ProyectoDTO>> listarProyectos(){
         return new ResponseEntity<>(proyectoService.listarProyectos(),HttpStatus.OK);
     }
 
     @GetMapping("/listar/{id}")
     @PreAuthorize("hasRole('profesional_client_role') or hasRole('administrador_client_role')")
-    public ResponseEntity<Optional<Proyecto>> listarProyecto(@PathVariable Long id) throws DataNotFoundException {
+    public ResponseEntity<Optional<ProyectoDTO>> listarProyecto(@PathVariable Long id) throws DataNotFoundException {
         return new ResponseEntity<>(proyectoService.listarProyectoPorId(id),HttpStatus.OK);
     }
 

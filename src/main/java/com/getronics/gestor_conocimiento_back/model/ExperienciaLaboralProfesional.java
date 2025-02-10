@@ -17,13 +17,13 @@ public class ExperienciaLaboralProfesional implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty (message = "El valro del campo empresa no debe ser vacio ni nulo")
+    @NotEmpty (message = "El valor del campo empresa no debe ser vacio ni nulo")
     private String empresa;
 
-    @NotEmpty (message = "El valro del campo cargo no debe ser vacio ni nulo")
+    @NotEmpty (message = "El valor del campo cargo no debe ser vacio ni nulo")
     private String cargo;
 
-    @NotEmpty (message = "El valro del campo descripcion no debe ser vacio ni nulo")
+    @NotEmpty (message = "El valor del campo descripcion no debe ser vacio ni nulo")
     @Column(columnDefinition="TEXT")
     @Lob
     private String descripcion;

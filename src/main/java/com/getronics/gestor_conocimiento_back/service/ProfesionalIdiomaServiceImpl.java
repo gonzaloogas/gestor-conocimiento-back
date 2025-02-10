@@ -1,5 +1,7 @@
 package com.getronics.gestor_conocimiento_back.service;
 
+import com.getronics.gestor_conocimiento_back.dto.IdiomaDTO;
+import com.getronics.gestor_conocimiento_back.dto.IdiomaMapper;
 import com.getronics.gestor_conocimiento_back.model.IdiomaProfesional;
 import com.getronics.gestor_conocimiento_back.repository.ProfesionalIdiomaRepository;
 import com.getronics.gestor_conocimiento_back.util.JwtExtract;
@@ -30,29 +32,34 @@ public class ProfesionalIdiomaServiceImpl implements ProfesionalIdiomaService {
     private ProfesionalIdiomaRepository idiomaRepository;
 
     @Override
-    public IdiomaProfesional crearIdioma(IdiomaProfesional idioma) {
+    public IdiomaDTO crearIdioma(IdiomaDTO idiomaDTO) {
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
-        logger.info("{} creó el idioma: {}", name, idioma);
+        logger.info("{} creó el idioma: {}", name, idiomaDTO);
 
-        return idiomaRepository.save(idioma);
+        IdiomaProfesional entidadAGuardar = IdiomaMapper.mapper.aEntidad(idiomaDTO);
+
+        IdiomaProfesional entidadGuardada = idiomaRepository.save(entidadAGuardar);
+
+        return IdiomaMapper.mapper.aDTO(entidadGuardada);
     }
 
     @Override
-    public Optional<IdiomaProfesional> listarIdiomaPorId(Long id) {
+    public Optional<IdiomaDTO> listarIdiomaPorId(Long id) {
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
         logger.info("{} buscó el idioma con el id: {}", name, id);
 
-        return idiomaRepository.findById(id);
+        return idiomaRepository.findById(id)
+                .map(IdiomaMapper.mapper::aDTO);
     }
 
     @Override
-    public List<IdiomaProfesional> listarIdiomas() {
+    public List<IdiomaDTO> listarIdiomas() {
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
         logger.info("{} buscó todos los idiomas", name);
 
-        return idiomaRepository.findAll();
+        return IdiomaMapper.mapper.aListaDTO(idiomaRepository.findAll());
     }
 }

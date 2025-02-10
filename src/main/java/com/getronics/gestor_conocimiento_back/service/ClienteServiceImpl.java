@@ -1,6 +1,12 @@
 package com.getronics.gestor_conocimiento_back.service;
 
+
+
+
+import com.getronics.gestor_conocimiento_back.dto.ClienteDTO;
+import com.getronics.gestor_conocimiento_back.dto.ClienteMapper;
 import com.getronics.gestor_conocimiento_back.exception.DataNotFoundException;
+
 import com.getronics.gestor_conocimiento_back.model.Cliente;
 import com.getronics.gestor_conocimiento_back.repository.ClienteRepository;
 import com.getronics.gestor_conocimiento_back.util.JwtExtract;
@@ -32,31 +38,38 @@ public class ClienteServiceImpl implements ClienteService{
     private ClienteRepository clienteRepository;
 
     @Override
-    public Cliente crearCliente(Cliente cliente) {
+    public ClienteDTO crearCliente(ClienteDTO clienteDTO) {
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
-        logger.info("{} creó al cliente {}", name, cliente);
+        logger.info("{} creó al cliente {}", name, clienteDTO);
 
-        return clienteRepository.save(cliente);
+
+        Cliente entidadAGuardar = ClienteMapper.mapper.aEntidad(clienteDTO);
+
+        Cliente entidadGuardada = clienteRepository.save(entidadAGuardar);
+
+        return ClienteMapper.mapper.aDTO(entidadGuardada);
+
     }
 
     @Override
-    public Optional<Cliente> listarClientePorId(Long id) throws DataNotFoundException {
+    public Optional<ClienteDTO> listarClientePorId(Long id) throws DataNotFoundException {
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
         logger.info("{} creó al cliente con id: {}", name, id);
 
-        return Optional.ofNullable(clienteRepository.findById(id).
-                orElseThrow(() -> new DataNotFoundException("Cliente no encontrado")));
+        return Optional.ofNullable(clienteRepository.findById(id)
+                .map(ClienteMapper.mapper::aDTO)
+                .orElseThrow(() -> new DataNotFoundException("Cliente no encontrado")));
     }
 
     @Override
-    public List<Cliente> listarClientes() {
+    public List<ClienteDTO> listarClientes() {
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
         logger.info("{} creó a todos los clientes.", name);
 
-        return clienteRepository.findAll();
+        return ClienteMapper.mapper.aListaDTO(clienteRepository.findAll());
     }
 
     @Override
@@ -65,18 +78,20 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
-    public Cliente actualizarCliente(Cliente cliente, Long id) throws DataNotFoundException {
+    public ClienteDTO actualizarCliente(ClienteDTO clienteDTO, Long id) throws DataNotFoundException {
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
-        logger.info("(ANTES) {} Actualizó al Cliente con id : {}, Cliente:  {}", name, id, cliente);
+        logger.info("(ANTES) {} Actualizó al Cliente con id : {}, Cliente:  {}", name, id, clienteDTO);
 
         Cliente clienteBD = clienteRepository.findById(id).orElseThrow(() -> new DataNotFoundException("Cliente no encontrado"));
-        clienteBD.setActivo(cliente.getActivo());
-        clienteBD.setRubro(cliente.getRubro());
-        clienteBD.setRazonSocial(cliente.getRazonSocial());
+        clienteBD.setActivo(clienteDTO.getActivo());
+        clienteBD.setRubro(clienteDTO.getRubro());
+        clienteBD.setRazonSocial(clienteDTO.getRazonSocial());
 
-        logger.info("(DESPUES) {} Actualizó al Cliente con id : {}, Cliente:  {}", name, id, clienteBD);
+        Cliente clienteActualizado = clienteRepository.save(clienteBD);
 
-        return clienteRepository.save(clienteBD);
+        logger.info("(DESPUES) {} Actualizó al Cliente con id : {}, Cliente:  {}", name, id, clienteActualizado);
+
+        return ClienteMapper.mapper.aDTO(clienteActualizado);
     }
 }

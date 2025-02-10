@@ -1,5 +1,7 @@
 package com.getronics.gestor_conocimiento_back.service;
 
+import com.getronics.gestor_conocimiento_back.dto.CatalogoIdiomaDTO;
+import com.getronics.gestor_conocimiento_back.dto.CatalogoIdiomaMapper;
 import com.getronics.gestor_conocimiento_back.model.CatalogoIdioma;
 import com.getronics.gestor_conocimiento_back.repository.CatalogoIdiomaRepository;
 import com.getronics.gestor_conocimiento_back.util.JwtExtract;
@@ -16,6 +18,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class IdiomaServiceImpl implements IdiomaService{
@@ -30,11 +33,12 @@ public class IdiomaServiceImpl implements IdiomaService{
     private CatalogoIdiomaRepository idiomaRepository;
 
     @Override
-    public List<CatalogoIdioma> listarIdiomas() {
+    public List<CatalogoIdiomaDTO> listarIdiomas() {
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
         logger.info("{} buscó todos los idiomas", name);
 
-        return idiomaRepository.findAll();
+        return CatalogoIdiomaMapper.mapper.toDTOList(idiomaRepository.findAll());
+
     }
 }

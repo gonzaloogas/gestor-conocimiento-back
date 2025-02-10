@@ -1,5 +1,8 @@
 package com.getronics.gestor_conocimiento_back.service;
 
+import com.getronics.gestor_conocimiento_back.dto.ClienteMapper;
+import com.getronics.gestor_conocimiento_back.dto.ProyectoDTO;
+import com.getronics.gestor_conocimiento_back.dto.ProyectoMapper;
 import com.getronics.gestor_conocimiento_back.exception.DataNotFoundException;
 import com.getronics.gestor_conocimiento_back.model.Proyecto;
 import com.getronics.gestor_conocimiento_back.repository.ProyectoRepository;
@@ -33,52 +36,58 @@ public class ProyectoServiceImpl implements ProyectoService{
     private ProyectoRepository proyectoRepository;
 
     @Override
-    public Proyecto crearProyecto(Proyecto proyecto) {
+    public ProyectoDTO crearProyecto(ProyectoDTO proyectoDTO) {
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
-        logger.info("{} creó el proyecto {}", name, proyecto);
+        logger.info("{} creó el proyecto {}", name, proyectoDTO);
 
-        return proyectoRepository.save(proyecto);
+        Proyecto entidadAGuardar = ProyectoMapper.mapper.aEntidad(proyectoDTO);
+        Proyecto entidadGuardada = proyectoRepository.save(entidadAGuardar);
+
+        return ProyectoMapper.mapper.aDTO(entidadGuardada);
     }
 
     @Override
-    public Optional<Proyecto> listarProyectoPorId(Long id) throws DataNotFoundException {
+    public Optional<ProyectoDTO> listarProyectoPorId(Long id) throws DataNotFoundException {
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
         logger.info("{} buscó el proyecto con el id: {}", name, id);
 
-        return proyectoRepository.findById(id);
+        return proyectoRepository.findById(id)
+                .map(ProyectoMapper.mapper::aDTO);
     }
 
     @Override
-    public List<Proyecto> listarProyectos() {
+    public List<ProyectoDTO> listarProyectos() {
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
         logger.info("{} buscó todos los proyectos", name);
 
-        return proyectoRepository.findAll();
+        return ProyectoMapper.mapper.aListaDTO(proyectoRepository.findAll());
     }
 
     @Override
-    public Proyecto actualizarProyecto(Proyecto proyecto, Long id) throws DataNotFoundException {
+    public ProyectoDTO actualizarProyecto(ProyectoDTO proyectoDTO, Long id) throws DataNotFoundException {
 
         Proyecto proyectoDB = proyectoRepository.findById(id).
                 orElseThrow(() -> new DataNotFoundException("Proyecto no encontrado"));
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
-        logger.info("(ANTES) {} actualizó el Proyecto con id: {}, Proyecto: {}", name, id, proyecto);
+        logger.info("(ANTES) {} actualizó el Proyecto con id: {}, Proyecto: {}", name, id, proyectoDTO);
 
-        proyectoDB.setNombre(proyecto.getNombre());
-        proyectoDB.setDescripcion(proyecto.getDescripcion());
-        proyectoDB.setFechaInicio(proyecto.getFechaInicio());
-        proyectoDB.setFechaFin(proyecto.getFechaFin());
-        proyectoDB.setEstado(proyecto.getEstado());
-        proyectoDB.setCliente(proyecto.getCliente());
+        proyectoDB.setNombre(proyectoDTO.getNombre());
+        proyectoDB.setDescripcion(proyectoDTO.getDescripcion());
+        proyectoDB.setFechaInicio(proyectoDTO.getFechaInicio());
+        proyectoDB.setFechaFin(proyectoDTO.getFechaFin());
+        proyectoDB.setEstado(proyectoDTO.getEstado());
+        proyectoDB.setCliente(ClienteMapper.mapper.aEntidad(proyectoDTO.getCliente()));
 
+
+        Proyecto proyectoActualizado = proyectoRepository.save(proyectoDB);
 
         logger.info("(DESPUES) {} actualizó el Proyecto con id: {}, Proyecto: {}", name, id, proyectoDB);
 
-        return proyectoRepository.save(proyectoDB);
+        return ProyectoMapper.mapper.aDTO(proyectoActualizado);
     }
 
     @Override

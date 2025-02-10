@@ -1,5 +1,7 @@
 package com.getronics.gestor_conocimiento_back.service;
 
+import com.getronics.gestor_conocimiento_back.dto.FormacionAcademicaProfesionalDTO;
+import com.getronics.gestor_conocimiento_back.dto.FormacionAcademicaProfesionalMapper;
 import com.getronics.gestor_conocimiento_back.model.FormacionAcademicaProfesional;
 import com.getronics.gestor_conocimiento_back.repository.FormacionAcademicaRepository;
 import com.getronics.gestor_conocimiento_back.util.JwtExtract;
@@ -29,20 +31,27 @@ public class FormacionAcademicaServiceImpl implements FormacionAcademicaService{
     @Autowired
     private FormacionAcademicaRepository formacionAcademicaRepo;
 
-    public FormacionAcademicaProfesional crearFormacionAcademica(FormacionAcademicaProfesional formacionAcademica){
+    public FormacionAcademicaProfesionalDTO crearFormacionAcademica(FormacionAcademicaProfesionalDTO formacionAcademicaDTO){
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
-        logger.info("{} creó la Formacion Academica: {}", name, formacionAcademica);
+        logger.info("{} creó la Formacion Academica: {}", name, formacionAcademicaDTO);
 
-        return formacionAcademicaRepo.save(formacionAcademica);
+
+        FormacionAcademicaProfesional entidadAGuardar = FormacionAcademicaProfesionalMapper.mapper.aEntidad(formacionAcademicaDTO);
+
+
+        FormacionAcademicaProfesional entidadGuardada = formacionAcademicaRepo.save(entidadAGuardar);
+
+        return FormacionAcademicaProfesionalMapper.mapper.aDTO(entidadGuardada);
     }
 
     @Override
-    public Optional<FormacionAcademicaProfesional> listarFormacionAcademicaPorId(Long id) {
+    public Optional<FormacionAcademicaProfesionalDTO> listarFormacionAcademicaPorId(Long id) {
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
         logger.info("{} buscó la Formacion Academica con id: {}", name, id);
 
-        return formacionAcademicaRepo.findById(id);
+        return formacionAcademicaRepo.findById(id)
+                .map(FormacionAcademicaProfesionalMapper.mapper::aDTO);
     }
 }

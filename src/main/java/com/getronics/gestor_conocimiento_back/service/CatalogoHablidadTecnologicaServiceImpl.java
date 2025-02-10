@@ -1,5 +1,7 @@
 package com.getronics.gestor_conocimiento_back.service;
 
+import com.getronics.gestor_conocimiento_back.dto.CatalogoConocimientoDTO;
+import com.getronics.gestor_conocimiento_back.dto.CatalogoConocimientoMapper;
 import com.getronics.gestor_conocimiento_back.model.CatalogoConocimiento;
 import com.getronics.gestor_conocimiento_back.repository.CatalogoHabilidadRepository;
 import com.getronics.gestor_conocimiento_back.util.JwtExtract;
@@ -31,28 +33,37 @@ public class CatalogoHablidadTecnologicaServiceImpl implements CatalogoHabilidad
     private CatalogoHabilidadRepository habilidadTecnologicaRepository;
 
     @Override
-    public CatalogoConocimiento crearHabilidadTecnologica(CatalogoConocimiento habilidadTecnologica) {
+    public CatalogoConocimientoDTO crearHabilidadTecnologica(CatalogoConocimientoDTO habilidadTecnologicaDTO) {
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
-        logger.info("{} creó la Habilidad Tecnoligica {}", name, habilidadTecnologica);
+        logger.info("{} creó la Habilidad Tecnoligica {}", name, habilidadTecnologicaDTO);
 
-        return habilidadTecnologicaRepository.save(habilidadTecnologica);
+
+        CatalogoConocimiento entidadAGuardar = CatalogoConocimientoMapper.mapper.aEntidad(habilidadTecnologicaDTO);
+
+
+        CatalogoConocimiento entidadGuardada = habilidadTecnologicaRepository.save(entidadAGuardar);
+
+
+        return CatalogoConocimientoMapper.mapper.aDTO(entidadGuardada);
     }
 
     @Override
-    public Optional<CatalogoConocimiento> listarHabilidadTecnologicaPorId(Long id) {
+    public Optional<CatalogoConocimientoDTO> listarHabilidadTecnologicaPorId(Long id) {
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
         logger.info("{} buscó la Habilidad Tecnoligica con el id: {}", name, id);
 
-        return habilidadTecnologicaRepository.findById(id);
+        //Si findById(id) devuelve Optional.of(entidad), se ejecuta aDTO(entidad) y devuelve Optional.of(dto)
+        return habilidadTecnologicaRepository.findById(id)
+                .map(CatalogoConocimientoMapper.mapper::aDTO);
     }
 
     @Override
-    public List<CatalogoConocimiento> listarHabilidades() {
+    public List<CatalogoConocimientoDTO> listarHabilidades() {
 
         String name = jwtExtract.getAuthenticatedUserNameFromJwt("name");
         logger.info("{} buscó todas las Habilidades Tecnoligicas {}", name);
-        return habilidadTecnologicaRepository.findAll();
+        return CatalogoConocimientoMapper.mapper.aListaDTO(habilidadTecnologicaRepository.findAll());
     }
 }

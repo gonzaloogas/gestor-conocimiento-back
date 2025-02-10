@@ -49,7 +49,7 @@ public class Profesional  implements Serializable {
     @NotEmpty(message = "El valor del campo direccion no debe ser vacio")
     private String direccion;
 
-    @NotEmpty(message = "El valor del campo direccion no debe ser vacio")
+    @NotEmpty(message = "El valor del campo telefono no debe ser vacio")
     private String telefono;
 
     @Email
