@@ -1,5 +1,5 @@
 package com.getronics.gestor_conocimiento_back.config;
-
+/*
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -83,3 +83,5 @@ public class JwtAuthenticationConverter implements Converter <Jwt, AbstractAuthe
         return jwt.getClaim(clainName);
     }
 }
+
+ */

@@ -1,8 +1,10 @@
 package com.getronics.gestor_conocimiento_back.util;
+/*
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.oauth2.jwt.Jwt;
+//import org.springframework.stereotype.Component;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,3 +22,4 @@ public class JwtExtract {
         return "Sin informacion";
     }
 }
+*/

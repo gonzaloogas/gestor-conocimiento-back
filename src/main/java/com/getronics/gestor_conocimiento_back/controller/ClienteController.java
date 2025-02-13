@@ -7,7 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,25 +22,25 @@ public class ClienteController {
     ClienteService clienteService;
 
     @PostMapping("/crear")
-    @PreAuthorize("hasRole('operador_client_role') or hasRole('administrador_client_role')")
+    //@PreAuthorize("hasRole('operador_client_role') or hasRole('administrador_client_role')")
     public ResponseEntity<Cliente> crearCliente(@Valid @RequestBody Cliente cliente) {
         return new ResponseEntity<>(clienteService.crearCliente(cliente), HttpStatus.CREATED);
     }
 
     @GetMapping("/listarTodos")
-    @PreAuthorize("hasRole('operador_client_role') or hasRole('administrador_client_role')")
+    //@PreAuthorize("hasRole('operador_client_role') or hasRole('administrador_client_role')")
     public ResponseEntity<List<Cliente>> listarClientes(){
         return new ResponseEntity<>(clienteService.listarClientes(),HttpStatus.OK);
     }
 
     @GetMapping("/listar/{id}")
-    @PreAuthorize("hasRole('operador_client_role') or hasRole('administrador_client_role')")
+    //@PreAuthorize("hasRole('operador_client_role') or hasRole('administrador_client_role')")
     public ResponseEntity<Optional<Cliente>> listarClientePorId(@PathVariable("id") Long id) throws DataNotFoundException {
         return new ResponseEntity<>(clienteService.listarClientePorId(id),HttpStatus.OK);
     }
 
     @PutMapping("/actualizar/{id}")
-    @PreAuthorize("hasRole('operador_client_role') or hasRole('administrador_client_role')")
+    //@PreAuthorize("hasRole('operador_client_role') or hasRole('administrador_client_role')")
     public ResponseEntity<Cliente> actualizarCliente(@Valid @RequestBody Cliente cliente, @PathVariable Long id) throws DataNotFoundException {
 
         return new ResponseEntity<>(clienteService.actualizarCliente(cliente,id),HttpStatus.OK);

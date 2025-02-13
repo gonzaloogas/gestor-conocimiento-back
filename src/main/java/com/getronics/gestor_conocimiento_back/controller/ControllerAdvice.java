@@ -2,11 +2,7 @@ package com.getronics.gestor_conocimiento_back.controller;
 
 import com.getronics.gestor_conocimiento_back.dto.ErrorDTO;
 import com.getronics.gestor_conocimiento_back.exception.*;
-import com.getronics.gestor_conocimiento_back.service.ProfesionalServiceImpl;
-import jakarta.persistence.ManyToOne;
-import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;

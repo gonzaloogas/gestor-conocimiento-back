@@ -33,6 +33,5 @@ public class RedesSocialesPortafolioProfesional implements Serializable {
 
         return  "{ url = '" + url + '\'' +
                 '}';
-
     }
 }
